@@ -1,5 +1,5 @@
 // Paste your deployed Google Apps Script Web App URL (/exec) below once so ALL devices work automatically without setup!
-const DEFAULT_SCRIPT_URL = "https://script.google.com/macros/library/d/1CvOhnioxK0zj0XQ3PLsy9tGqNkOcyUCqGfUe_avkos-p7AI1WfMF-31R/5";
+const DEFAULT_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4lFEqp90PygRL5DfnqeOzJ2fnT4WmptEqmqCbxEEN-KgdGLDdfaGBub4cNDI3XqPjpA/exec";
 
 function getScriptUrl() {
   return (localStorage.getItem("re_script_url") || DEFAULT_SCRIPT_URL).trim();
