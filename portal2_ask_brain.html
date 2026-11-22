@@ -3,126 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal 2: Ask RitualEase Brain — ritualease.com</title>
+<title>Ask RitualEase Brain — ritualease.com</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="top-bar"></div>
+<div class="accent-strip"></div>
 <header>
-  <a href="portal1_team_input.html" class="logo-lockup">
-    <span class="re-badge">RE</span>
-    <span class="brand-name">ritualease.com</span>
-  </a>
-  <div class="tagline">Celebrations, delivered at home</div>
-</header>
-<nav class="nav-bar"><a href="portal1_team_input.html" class="nav-link ">1. Team Input & File Drop</a><a href="portal2_ask_brain.html" class="nav-link active">2. Ask RitualEase Brain</a><a href="portal3_admin_brain.html" class="nav-link ">3. Admin Audit, Gaps & Brain Training</a></nav>
-<main>
-
-<div class="card">
-  <h1>Portal 2 — Ask Anything From Your Drives, Sheets & Team Logs</h1>
-  <p class="sub">Write your query below. Searches all live team entries, auto-split categories, Drive attachments, custom admin instructions, 13 packages, and 16 vendors.</p>
-
-  <label>Your Question</label>
-  <textarea id="qInput" style="min-height:95px;" placeholder="Examples:
-• How many Blinkit pamphlets did Sumit distribute and what is the remaining count?
-• Which leads or tasks are still pending follow-up or missing outcomes?
-• Summarize all vendor confirmations and files uploaded to Drive today."></textarea>
-
-  <div class="row">
-    <button class="btn" id="askBtn" onclick="askBrain()">🧠 Ask RitualEase Brain</button>
-    <a href="https://gemini.google.com/notebook/3f9af44e-41dd-4b5e-a952-838e77e3d271" target="_blank" class="btn btn-gold">🎈 Open Full NotebookLM Brain (Images + All Sources) ↗</a>
+  <div class="brand-mark">
+    <span class="re-seal">RE</span>
+    <span class="brand-title">ritualease.com</span>
   </div>
+  <div class="brand-sub">RitualEase Intelligence</div>
+</header>
 
-  <div id="qResult"></div>
-</div>
+<main>
+  <div class="surface">
+    <h1>Ask RitualEase</h1>
+    <p class="lead-text">Ask anything across your Drive folders, spreadsheets, docs, packages, and daily team logs.</p>
 
+    <div class="field">
+      <textarea id="qInput" style="min-height:110px;" placeholder="Type your question here... (e.g., How many pamphlets were distributed this week? Which leads need follow-up? What are the Satyanarayan Katha utensil rules?)"></textarea>
+    </div>
+
+    <button class="btn-primary" id="askBtn" onclick="askBrain()">Ask RitualEase</button>
+
+    <div id="answerArea"></div>
+  </div>
 </main>
-<footer>
-  <strong>ritualease.com</strong> • Noida, Greater Noida, Greater Noida West (201301) & Ghaziabad • +91 95990 54850 • @ritualease
-</footer>
+
+<footer>ritualease.com • Private Brain Query</footer>
+
 <script src="brain.js"></script>
 <script>
+document.getElementById("qInput").addEventListener("keydown", function(e) {
+  if ((e.metaKey || e.ctrlKey) && e.key === "Enter") askBrain();
+});
 
 async function askBrain() {
   const q = document.getElementById("qInput").value.trim();
-  if (!q) return;
-  const btn = document.getElementById("askBtn");
-  btn.disabled = true;
-  btn.textContent = "🔍 Searching Drives, Sheets & Brain...";
+  if (!q) {
+    document.getElementById("qInput").focus();
+    return;
+  }
 
-  let logs = getEntries();
-  const scriptUrl = localStorage.getItem("re_script_url");
+  const btn = document.getElementById("askBtn");
+  const area = document.getElementById("answerArea");
+  btn.disabled = true;
+  btn.textContent = "Thinking across your Drive & Brain...";
+  area.innerHTML = `<div class="response-card" style="color:var(--muted);">Reading your sheets, docs, images, and team logs...</div>`;
+
+  const scriptUrl = getScriptUrl();
+
+  // 1. Live Google Apps Script + Gemini AI + Drive Folder Search
   if (scriptUrl) {
     try {
-      const res = await fetch(scriptUrl);
+      const url = scriptUrl + (scriptUrl.includes("?") ? "&" : "?") + "q=" + encodeURIComponent(q);
+      const res = await fetch(url);
       const data = await res.json();
-      if (data.rows && data.rows.length > 1) {
-        logs = data.rows.slice(1).reverse().map(r => ({
-          time: new Date(r[0]).toLocaleString("en-IN", { dateStyle: "short", timeStyle: "short" }),
-          id: r[1], name: r[2], role: r[3], email: r[4],
-          categories: (r[5] || "").split(", "),
-          splitSummary: r[6] || "",
-          fileNames: r[7] ? [r[7]] : [],
-          rawText: r[8] || "",
-          gaps: detectMissingOutcome(r[8] || "")
-        }));
+      if (data.answer) {
+        area.innerHTML = `<div class="response-card">${formatAnswer(data.answer)}</div>`;
+        btn.disabled = false;
+        btn.textContent = "Ask RitualEase";
+        return;
       }
-    } catch (e) {}
+    } catch (err) {
+      // Fallback smoothly to local logs if offline
+    }
   }
 
+  // 2. Fallback search if Apps Script URL is not yet added in brain.js
+  const logs = getEntries();
   const terms = q.toLowerCase().split(/\W+/).filter(w => w.length > 2);
-  const askGaps = /follow.?up|missing|pending|incomplete|outcome|gap/i.test(q);
-
-  const matches = askGaps
-    ? logs.filter(l => (l.gaps && l.gaps.length > 0 && !l.outcomeResolved))
-    : logs.filter(l => {
-        const blob = `${l.name} ${l.role} ${l.email} ${l.splitSummary} ${l.rawText} ${(l.fileNames||[]).join(" ")} ${l.followupNote||""}`.toLowerCase();
-        return terms.some(t => blob.includes(t));
-      });
-
-  const rules = getCustomRules();
-  const ruleMatches = rules.filter(r => terms.some(t => `${r.section} ${r.keywords} ${r.instruction}`.toLowerCase().includes(t)));
-  const pkgMatches = DEFAULT_KB.packages.filter(p => terms.some(t => p.toLowerCase().includes(t)));
-  const vendorMatches = DEFAULT_KB.vendors.filter(v => terms.some(t => v.toLowerCase().includes(t)));
-
-  let out = `<div class="result-box"><strong>🧠 Brain Answer for:</strong> <em>"${q}"</em><hr style="margin:10px 0; border:0; border-top:1px solid var(--border);">`;
+  const matches = logs.filter(l => {
+    const blob = `${l.name} ${l.splitSummary} ${l.rawText} ${(l.fileNames||[]).join(" ")}`.toLowerCase();
+    return terms.some(t => blob.includes(t));
+  });
 
   if (matches.length) {
-    out += `<strong>📋 Matching Team Logs & Drive Files (${matches.length}):</strong><ul style="margin:8px 0 12px 18px;">`;
-    matches.slice(0, 10).forEach(m => {
-      out += `<li style="margin-bottom:8px;"><strong>${m.name}</strong> (${m.role}, ${m.time}): ${m.splitSummary || m.rawText}
-        ${m.followupNote ? `<br><span class="pill pill-ok">✅ Admin Outcome Logged: ${m.followupNote}</span>` : ""}
-        ${(m.gaps && m.gaps.length && !m.outcomeResolved) ? `<br><span class="pill pill-bad">🚨 Missing Outcome: ${m.gaps.join("; ")}</span>` : ""}
-        ${m.fileNames && m.fileNames.length ? `<br><span class="pill pill-ok">📎 Drive: ${m.fileNames.join(", ")}</span>` : ""}
-      </li>`;
-    });
-    out += `</ul>`;
-  } else if (logs.length) {
-    out += `<strong>📋 Latest Team Entries in Brain (${logs.length} total):</strong><ul style="margin:8px 0 12px 18px;">`;
-    logs.slice(0, 5).forEach(m => {
-      out += `<li style="margin-bottom:6px;"><strong>${m.name}</strong> (${m.time}): ${m.splitSummary || m.rawText}</li>`;
-    });
-    out += `</ul>`;
+    const summary = matches.map(m => `• ${m.name} (${m.time}): ${m.splitSummary || m.rawText}`).join("\n");
+    area.innerHTML = `<div class="response-card">${formatAnswer(summary)}</div>`;
   } else {
-    out += `<p style="margin-bottom:10px;">No team logs found yet. Add entries in <strong>Portal 1</strong> first.</p>`;
+    area.innerHTML = `<div class="response-card">No matching records found yet. Make sure your Google Apps Script URL is added to <strong>brain.js</strong> so I can read your full Drive folder and Google Sheets.</div>`;
   }
 
-  if (ruleMatches.length) {
-    out += `<strong>🎓 Custom Admin Instructions Matched:</strong><ul style="margin:6px 0 12px 18px;">${ruleMatches.map(r => `<li><strong>[${r.section}]</strong> ${r.instruction}</li>`).join("")}</ul>`;
-  }
-  if (pkgMatches.length) {
-    out += `<strong>🎁 Matching Packages & Utensil Rules:</strong><ul style="margin:6px 0 12px 18px;">${pkgMatches.map(p => `<li>${p}</li>`).join("")}</ul>`;
-  }
-  if (vendorMatches.length) {
-    out += `<strong>🛍️ Approved Vendors:</strong> <span class="pill">${vendorMatches.join(", ")}</span><br>`;
-  }
-
-  out += `</div>`;
-  document.getElementById("qResult").innerHTML = out;
   btn.disabled = false;
-  btn.textContent = "🧠 Ask RitualEase Brain";
+  btn.textContent = "Ask RitualEase";
 }
 
+function formatAnswer(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/(https?:\/\/[^\s)]+)/g, '<a href="$1" target="_blank" style="color:var(--crimson);font-weight:600;">Open Drive File ↗</a>');
+}
 </script>
 </body>
 </html>

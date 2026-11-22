@@ -3,157 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal 3: Admin Audit & Brain Training — ritualease.com</title>
+<title>Admin Command & Brain Training — ritualease.com</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="top-bar"></div>
+<div class="accent-strip"></div>
 <header>
-  <a href="portal1_team_input.html" class="logo-lockup">
-    <span class="re-badge">RE</span>
-    <span class="brand-name">ritualease.com</span>
-  </a>
-  <div class="tagline">Celebrations, delivered at home</div>
+  <div class="brand-mark">
+    <span class="re-seal">RE</span>
+    <span class="brand-title">ritualease.com</span>
+  </div>
+  <div class="brand-sub">Founder & Admin Command</div>
 </header>
-<nav class="nav-bar"><a href="portal1_team_input.html" class="nav-link ">1. Team Input & File Drop</a><a href="portal2_ask_brain.html" class="nav-link ">2. Ask RitualEase Brain</a><a href="portal3_admin_brain.html" class="nav-link active">3. Admin Audit, Gaps & Brain Training</a></nav>
-<main>
 
-<!-- SECTION A: INTELLIGENT MISSING FOLLOW-UP & OUTCOME RADAR -->
-<div class="card">
-  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-    <h1>🚨 Missing Follow-Up & Incomplete Outcome Radar</h1>
-    <span class="pill pill-bad" id="gapCount">0 Action Items</span>
-  </div>
-  <p class="sub">The Brain automatically scans every team submission and highlights entries where a lead was quoted without a booking/follow-up outcome, pamphlets were issued without return counts, or vendor/ad results were left incomplete.</p>
-  <div id="gapList"></div>
-</div>
-
-<!-- SECTION B: FILTER, SORT & VIEW ALL TEAM RESPONSES -->
-<div class="card">
-  <h2>📊 All Team Responses, Auto-Splits & Drive Files</h2>
-  <div class="row" style="margin-bottom:6px;">
-    <div>
-      <label>Filter by Category</label>
-      <select id="fCat" onchange="renderAdmin()">
-        <option value="ALL">All Categories</option>
-        <option value="Field & Pamphlets">Field & Pamphlets</option>
-        <option value="Sales & WhatsApp Leads">Sales & WhatsApp Leads</option>
-        <option value="Supply Chain & Vendors">Supply Chain & Vendors</option>
-        <option value="Marketing & Brand Audit">Marketing & Brand Audit</option>
-        <option value="MISSING">🚨 Only Missing Outcomes / Follow-Ups</option>
-      </select>
+<main class="wide">
+  <!-- 1. MISSING FOLLOW-UP & OUTCOME RADAR -->
+  <div class="surface">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
+      <h1>Missing Follow-Ups & Incomplete Outcomes</h1>
+      <span class="tag tag-bad" id="gapBadge">0 Pending</span>
     </div>
-    <div>
-      <label>Filter by Team Member</label>
-      <input type="text" id="fMember" placeholder="Type name or email..." oninput="renderAdmin()">
-    </div>
-    <div>
-      <label>Sort Responses</label>
-      <select id="fSort" onchange="renderAdmin()">
-        <option value="NEW">Newest First</option>
-        <option value="OLD">Oldest First</option>
-        <option value="GAPS">Missing Outcomes First</option>
-      </select>
-    </div>
+    <p class="lead-text">Automatically catches entries where a lead was quoted without a booking/follow-up outcome, pamphlets were issued without return counts, or vendor rates were left open.</p>
+    <div id="gapList"></div>
   </div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Date & Team Member</th>
-          <th>Auto-Split Brain Sections</th>
-          <th>Drive Files</th>
-          <th>Outcome / Follow-Up Status</th>
-        </tr>
-      </thead>
-      <tbody id="adminTable"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- SECTION C: TRAIN & INSTRUCT THE BRAIN -->
-<div class="card">
-  <h2>🎓 Train & Instruct RitualEase Brain (Add New Rules, SOPs & Auto-Split Keywords)</h2>
-  <p class="sub">Teach the Brain new categorization rules, package SOPs, vendor instructions, or quality checks. Every future submission in Portal 1 and query in Portal 2 immediately applies what you teach here.</p>
-
-  <div class="row">
-    <div>
-      <label>Brain Section Name</label>
-      <input type="text" id="rSec" placeholder="e.g. Clubhouse Pujas / Corporate Events / Return Gifts">
+  <!-- 2. VIEW, FILTER & SORT ALL RESPONSES -->
+  <div class="surface">
+    <h1>Team Responses & Drive Uploads</h1>
+    <div class="grid-2" style="margin-top:14px;">
+      <div class="field">
+        <label>Filter</label>
+        <select id="fFilter" onchange="renderAdmin()">
+          <option value="ALL">All Responses</option>
+          <option value="MISSING">Only Missing Outcomes</option>
+          <option value="Field & Pamphlets">Field & Pamphlets</option>
+          <option value="Sales & WhatsApp Leads">Sales & WhatsApp Leads</option>
+          <option value="Supply Chain & Vendors">Supply Chain & Vendors</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Search Name or Keyword</label>
+        <input type="text" id="fSearch" placeholder="Filter by team member or word..." oninput="renderAdmin()">
+      </div>
+      <div class="field">
+        <label>Sort</label>
+        <select id="fSort" onchange="renderAdmin()">
+          <option value="NEW">Newest First</option>
+          <option value="OLD">Oldest First</option>
+          <option value="GAPS">Missing Outcomes First</option>
+        </select>
+      </div>
     </div>
-    <div>
-      <label>Trigger Keywords (Comma-separated)</label>
-      <input type="text" id="rKw" placeholder="e.g. clubhouse, society hall, bulk order, corporate">
+
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Team Member</th>
+            <th>Organized Update</th>
+            <th>Drive Files</th>
+            <th>Outcome</th>
+          </tr>
+        </thead>
+        <tbody id="adminRows"></tbody>
+      </table>
     </div>
   </div>
-  <label>Instruction / Rule for the Brain to Learn & Enforce</label>
-  <textarea id="rInst" style="min-height:80px;" placeholder="e.g. Whenever a Clubhouse Puja is logged, always check that 30-pax buffet catering and society NOC permission are confirmed 48 hours prior."></textarea>
-  <button class="btn btn-gold" onclick="addRule()">🧠 Save Instruction & Train Brain</button>
 
-  <div id="rulesList" style="margin-top:14px;"></div>
-</div>
+  <!-- 3. TRAIN & INSTRUCT THE BRAIN -->
+  <div class="surface">
+    <h1>Train & Instruct the Brain</h1>
+    <p class="lead-text">Teach new SOPs, categorization rules, or follow-up checks. Applied automatically to future updates and queries.</p>
+    <div class="grid-2">
+      <div class="field">
+        <label>Section Name</label>
+        <input type="text" id="rSec" placeholder="e.g. Clubhouse Pujas">
+      </div>
+      <div class="field">
+        <label>Trigger Keywords</label>
+        <input type="text" id="rKw" placeholder="e.g. clubhouse, bulk, noc">
+      </div>
+    </div>
+    <div class="field">
+      <label>Instruction for the Brain</label>
+      <textarea id="rInst" style="min-height:80px;" placeholder="e.g. Always verify society NOC and 30-pax catering confirmation 48 hours before any Clubhouse Puja."></textarea>
+    </div>
+    <button class="btn-primary btn-gold" onclick="addRule()">Save Instruction to Brain</button>
+    <div id="rulesArea" style="margin-top:16px;"></div>
+  </div>
 
-<!-- SECTION D: GOOGLE DRIVE & SHEET CONNECTION -->
-<div class="card">
-  <h2>⚙️ Google Drive & Central Sheet Connection (₹0 Forever)</h2>
-  <p class="sub">Connect once so Portal 1 uploads files directly to your Google Drive folder and syncs all rows across devices.</p>
-  <div class="row">
-    <div>
-      <label>Google Apps Script Web App URL</label>
+  <!-- 4. BACKEND CONNECTION -->
+  <div class="surface">
+    <h1>Google Drive & Sheet Connection</h1>
+    <p class="lead-text">Connect your Google Apps Script URL so live Google Sheet rows and Drive uploads sync here automatically.</p>
+    <div class="field">
+      <label>Google Apps Script Web App URL (/exec)</label>
       <input type="url" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec">
     </div>
-    <div>
-      <label>Target Google Drive Folder ID</label>
-      <input type="text" id="folderId" placeholder="Paste Drive Folder ID">
-    </div>
+    <button class="btn-primary" onclick="saveScriptUrl()">Save & Sync Live Sheet</button>
   </div>
-  <button class="btn" onclick="saveConfig()">Save Drive & Sheet Connection</button>
-  <details style="margin-top:12px;">
-    <summary style="cursor:pointer; font-size:12px; font-weight:700; color:var(--crimson);">View 15-Line Google Apps Script (Copy into script.google.com)</summary>
-    <div class="code-box">function doPost(e) {
-  var data = JSON.parse(e.postData.contents);
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName("Brain_Logs") || ss.insertSheet("Brain_Logs");
-  if (sheet.getLastRow() === 0) sheet.appendRow(["Timestamp","ID","Name","Role","Email","Categories","Auto_Split_Summary","Drive_Files","Raw_Text"]);
-  var fileUrls = [];
-  if (data.files && data.files.length > 0) {
-    var folder = data.folderId ? DriveApp.getFolderById(data.folderId) : DriveApp.getRootFolder();
-    data.files.forEach(function(f) {
-      var blob = Utilities.newBlob(Utilities.base64Decode(f.base64), f.mimeType, f.name);
-      var saved = folder.createFile(blob);
-      fileUrls.push(saved.getName() + " (" + saved.getUrl() + ")");
-    });
-  }
-  sheet.appendRow([new Date(), data.id, data.name, data.role, data.email, data.categories.join(", "), data.splitSummary, fileUrls.join(" | "), data.rawText]);
-  return ContentService.createTextOutput(JSON.stringify({status:"ok", files:fileUrls})).setMimeType(ContentService.MimeType.JSON);
-}
-function doGet(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Brain_Logs");
-  var rows = sheet ? sheet.getDataRange().getValues() : [];
-  return ContentService.createTextOutput(JSON.stringify({rows:rows})).setMimeType(ContentService.MimeType.JSON);
-}</div>
-  </details>
-</div>
-
 </main>
-<footer>
-  <strong>ritualease.com</strong> • Noida, Greater Noida, Greater Noida West (201301) & Ghaziabad • +91 95990 54850 • @ritualease
-</footer>
+
+<footer>ritualease.com • Admin Access Only</footer>
+
 <script src="brain.js"></script>
 <script>
+document.getElementById("scriptUrl").value = getScriptUrl();
 
-document.getElementById("scriptUrl").value = localStorage.getItem("re_script_url") || "";
-document.getElementById("folderId").value = localStorage.getItem("re_folder_id") || "";
-
-function saveConfig() {
-  localStorage.setItem("re_script_url", document.getElementById("scriptUrl").value.trim());
-  localStorage.setItem("re_folder_id", document.getElementById("folderId").value.trim());
-  alert("Drive & Google Sheet connection saved!");
+async function saveScriptUrl() {
+  const val = document.getElementById("scriptUrl").value.trim();
+  localStorage.setItem("re_script_url", val);
+  await syncFromCloud();
+  renderAdmin();
+  alert("Connected & synced!");
 }
 
-function resolveGap(id) {
-  const note = prompt("Enter the follow-up outcome / resolution (e.g. 'Booked for 28 Nov, ₹3,000 advance paid' or '0 pamphlets returned, reconciled'):");
+async function syncFromCloud() {
+  const url = getScriptUrl();
+  if (!url) return;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.rows && data.rows.length > 1) {
+      const localMap = {};
+      getEntries().forEach(e => { localMap[e.id] = e; });
+      const merged = data.rows.slice(1).reverse().map(r => {
+        const id = r[1] || ("RE-" + Math.random().toString(36).slice(2, 7));
+        const existing = localMap[id] || {};
+        const raw = r[8] || "";
+        const gaps = detectMissingOutcome(raw);
+        return {
+          time: new Date(r[0]).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }),
+          id,
+          name: r[2] || "Team",
+          email: r[4] || "",
+          categories: (r[5] || "").split(", ").filter(Boolean),
+          splitSummary: r[6] || raw,
+          fileNames: r[7] ? r[7].split(" | ") : [],
+          rawText: raw,
+          gaps,
+          outcomeResolved: existing.outcomeResolved || gaps.length === 0,
+          followupNote: existing.followupNote || ""
+        };
+      });
+      saveEntries(merged);
+    }
+  } catch (e) {}
+}
+
+function logOutcome(id) {
+  const note = prompt("Enter the follow-up outcome (e.g. 'Booked for 28 Nov, advance paid' or '0 pamphlets returned'):");
   if (!note || !note.trim()) return;
   const logs = getEntries();
   const idx = logs.findIndex(x => x.id === id);
@@ -169,12 +168,9 @@ function addRule() {
   const section = document.getElementById("rSec").value.trim();
   const keywords = document.getElementById("rKw").value.trim();
   const instruction = document.getElementById("rInst").value.trim();
-  if (!section || !instruction) {
-    alert("Please enter a Brain Section Name and Instruction.");
-    return;
-  }
+  if (!section || !instruction) return;
   const rules = getCustomRules();
-  rules.unshift({ id: "RULE-" + Date.now().toString().slice(-4), section, keywords, instruction });
+  rules.unshift({ id: "R-" + Date.now().toString().slice(-4), section, keywords, instruction });
   saveCustomRules(rules);
   document.getElementById("rSec").value = "";
   document.getElementById("rKw").value = "";
@@ -182,91 +178,86 @@ function addRule() {
   renderRules();
 }
 
-function deleteRule(id) {
+function removeRule(id) {
   saveCustomRules(getCustomRules().filter(r => r.id !== id));
   renderRules();
 }
 
 function renderRules() {
   const rules = getCustomRules();
-  const box = document.getElementById("rulesList");
-  if (!rules.length) {
-    box.innerHTML = `<p class="sub">No custom training rules added yet. Add your first rule above to teach the Brain!</p>`;
-    return;
-  }
+  const box = document.getElementById("rulesArea");
   box.innerHTML = rules.map(r => `
-    <div class="result-box" style="margin-top:8px; padding:12px;">
+    <div class="response-card" style="margin-top:10px; padding:14px;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span class="pill">${r.section}</span>
-        <button class="btn btn-sm" style="background:var(--bad-txt);" onclick="deleteRule('${r.id}')">Remove</button>
+        <span class="tag">${r.section}</span>
+        <button class="btn-sm" style="background:var(--bad-bg); color:var(--bad-txt);" onclick="removeRule('${r.id}')">Remove</button>
       </div>
-      <div style="font-size:12px; color:var(--muted); margin:4px 0;"><strong>Keywords:</strong> ${r.keywords || "General SOP"}</div>
-      <div><strong>Instruction:</strong> ${r.instruction}</div>
+      <div style="margin-top:6px;">${r.instruction}</div>
     </div>
   `).join("");
 }
 
 function renderAdmin() {
-  let logs = getEntries();
-  const gapItems = logs.filter(l => l.gaps && l.gaps.length > 0 && !l.outcomeResolved);
-  document.getElementById("gapCount").textContent = `${gapItems.length} Missing Outcome(s)`;
+  const logs = getEntries();
+  const pending = logs.filter(l => l.gaps && l.gaps.length > 0 && !l.outcomeResolved);
+  document.getElementById("gapBadge").textContent = `${pending.length} Pending`;
 
   const gapBox = document.getElementById("gapList");
-  if (!gapItems.length) {
-    gapBox.innerHTML = `<div class="result-box" style="background:var(--ok-bg); color:var(--ok-txt); font-weight:700;">✅ All clear! Every logged lead, pamphlet drop, and vendor update has a recorded outcome.</div>`;
+  if (!pending.length) {
+    gapBox.innerHTML = `<div class="response-card" style="background:var(--ok-bg); color:var(--ok-txt);">All clear — every logged lead and task has a recorded outcome.</div>`;
   } else {
-    gapBox.innerHTML = gapItems.map(g => `
-      <div class="gap-card">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;">
-          <div>
-            <h4>🚨 ${g.name} (${g.role}) — ${g.time} [${g.id}]</h4>
-            <div style="font-size:13px; margin-bottom:6px;">"${g.rawText}"</div>
-            ${g.gaps.map(msg => `<span class="pill pill-bad">${msg}</span>`).join("<br>")}
-          </div>
-          <button class="btn btn-green btn-sm" onclick="resolveGap('${g.id}')">✅ Log Outcome / Follow-Up</button>
+    gapBox.innerHTML = pending.map(g => `
+      <div class="gap-item">
+        <div>
+          <strong>${g.name}</strong> <span style="font-size:12px; color:var(--muted);">(${g.time})</span>
+          <div style="font-size:13.5px; margin:4px 0;">"${g.rawText}"</div>
+          ${g.gaps.map(m => `<span class="tag tag-bad">${m}</span>`).join(" ")}
         </div>
+        <button class="btn-sm" style="background:var(--ok-txt); color:#fff;" onclick="logOutcome('${g.id}')">+ Log Outcome</button>
       </div>
     `).join("");
   }
 
-  // Filter & Sort table
-  const cat = document.getElementById("fCat").value;
-  const mem = document.getElementById("fMember").value.trim().toLowerCase();
+  const filter = document.getElementById("fFilter").value;
+  const search = document.getElementById("fSearch").value.trim().toLowerCase();
   const sort = document.getElementById("fSort").value;
 
-  let filtered = logs.filter(l => {
-    if (cat === "MISSING" && (!l.gaps || !l.gaps.length || l.outcomeResolved)) return false;
-    if (cat !== "ALL" && cat !== "MISSING" && !(l.categories || []).includes(cat)) return false;
-    if (mem && !`${l.name} ${l.email} ${l.role}`.toLowerCase().includes(mem)) return false;
+  let rows = logs.filter(l => {
+    if (filter === "MISSING" && (!l.gaps || !l.gaps.length || l.outcomeResolved)) return false;
+    if (filter !== "ALL" && filter !== "MISSING" && !(l.categories || []).includes(filter)) return false;
+    if (search && !`${l.name} ${l.email} ${l.splitSummary} ${l.rawText}`.toLowerCase().includes(search)) return false;
     return true;
   });
 
-  if (sort === "OLD") filtered = [...filtered].reverse();
-  if (sort === "GAPS") filtered = [...filtered].sort((a, b) => ((b.gaps && !b.outcomeResolved ? 1 : 0) - (a.gaps && !a.outcomeResolved ? 1 : 0)));
+  if (sort === "OLD") rows = [...rows].reverse();
+  if (sort === "GAPS") rows = [...rows].sort((a, b) => ((b.gaps && !b.outcomeResolved ? 1 : 0) - (a.gaps && !a.outcomeResolved ? 1 : 0)));
 
-  const tbody = document.getElementById("adminTable");
-  if (!filtered.length) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">No matching responses found.</td></tr>`;
+  const tbody = document.getElementById("adminRows");
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">No entries yet.</td></tr>`;
     return;
   }
-  tbody.innerHTML = filtered.map(l => `
+
+  tbody.innerHTML = rows.map(l => `
     <tr>
-      <td><strong>${l.name}</strong><br><span style="font-size:11px; color:var(--muted);">${l.role} • ${l.email}<br>${l.time} (${l.id})</span></td>
-      <td>${(l.categories || []).map(c => `<span class="pill">${c}</span>`).join(" ")}<div style="margin-top:4px;">${l.splitSummary || l.rawText}</div></td>
-      <td>${(l.fileNames && l.fileNames.length) ? l.fileNames.map(f => `<span class="pill pill-ok">📎 ${f}</span>`).join("<br>") : "<span style='color:var(--muted); font-size:12px;'>—</span>"}</td>
+      <td><strong>${l.name}</strong><br><span style="font-size:12px; color:var(--muted);">${l.email}<br>${l.time}</span></td>
+      <td style="white-space:pre-wrap;">${l.splitSummary || l.rawText}</td>
+      <td>${(l.fileNames && l.fileNames.length) ? l.fileNames.map(f => `<span class="tag tag-ok">📎 ${f}</span>`).join("<br>") : "—"}</td>
       <td>
         ${l.outcomeResolved
-          ? `<span class="pill pill-ok">✅ Complete</span><div style="font-size:12px; margin-top:4px;">${l.followupNote || "Outcome recorded"}</div>`
-          : `<span class="pill pill-bad">🚨 Action Needed</span><div style="font-size:12px; color:var(--bad-txt); margin:4px 0;">${(l.gaps||[]).join("; ")}</div><button class="btn btn-green btn-sm" onclick="resolveGap('${l.id}')">+ Add Outcome</button>`
+          ? `<span class="tag tag-ok">✓ Complete</span><div style="font-size:12px; margin-top:4px;">${l.followupNote || ""}</div>`
+          : `<span class="tag tag-bad">Follow-Up Needed</span><div style="margin-top:6px;"><button class="btn-sm" style="background:var(--ok-txt); color:#fff;" onclick="logOutcome('${l.id}')">+ Add Outcome</button></div>`
         }
       </td>
     </tr>
   `).join("");
 }
 
-renderRules();
-renderAdmin();
-
+(async () => {
+  await syncFromCloud();
+  renderRules();
+  renderAdmin();
+})();
 </script>
 </body>
 </html>

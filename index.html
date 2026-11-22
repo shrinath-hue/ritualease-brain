@@ -3,151 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal 1: Team Input & File Drop — ritualease.com</title>
+<title>ritualease.com — Team Update</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="top-bar"></div>
+<div class="accent-strip"></div>
 <header>
-  <a href="portal1_team_input.html" class="logo-lockup">
-    <span class="re-badge">RE</span>
-    <span class="brand-name">ritualease.com</span>
-  </a>
-  <div class="tagline">Celebrations, delivered at home</div>
+  <div class="brand-mark">
+    <span class="re-seal">RE</span>
+    <span class="brand-title">ritualease.com</span>
+  </div>
+  <div class="brand-sub">Celebrations, delivered at home</div>
 </header>
-<nav class="nav-bar"><a href="portal1_team_input.html" class="nav-link active">1. Team Input & File Drop</a><a href="portal2_ask_brain.html" class="nav-link ">2. Ask RitualEase Brain</a><a href="portal3_admin_brain.html" class="nav-link ">3. Admin Audit, Gaps & Brain Training</a></nav>
+
 <main>
+  <div class="surface">
+    <h1>Daily Work & File Drop</h1>
+    <p class="lead-text">Share what you worked on today and attach any spreadsheets, photos, or bills. Everything is saved and organized automatically.</p>
 
-<div class="card">
-  <h1>Portal 1 — Submit Daily Work & Attach Files</h1>
-  <p class="sub">Write everything you did in one box. The Brain automatically splits your update into relevant sections, detects any missing outcomes/follow-ups, and saves attached files straight to Google Drive.</p>
+    <div class="grid-2">
+      <div class="field">
+        <label>Your Name</label>
+        <input type="text" id="tName" placeholder="e.g. Sumit">
+      </div>
+      <div class="field">
+        <label>RitualEase Email</label>
+        <input type="email" id="tEmail" placeholder="name@ritualease.com">
+      </div>
+    </div>
 
-  <div class="row">
-    <div>
-      <label>Your Name</label>
-      <input type="text" id="tName" placeholder="e.g. Sumit / Neha / Rahul">
+    <div class="field">
+      <label>What work did you do?</label>
+      <textarea id="tWork" placeholder="Write everything naturally here — leads quoted, pamphlets distributed & returned, vendor rates locked, or ad updates..."></textarea>
     </div>
-    <div>
-      <label>Your Role</label>
-      <select id="tRole">
-        <option>Field & Pamphlets</option>
-        <option>Sales & WhatsApp Concierge</option>
-        <option>Supply Chain & Vendors</option>
-        <option>Marketing & Content</option>
-        <option>Founder / Admin</option>
-      </select>
+
+    <div class="upload-box" onclick="document.getElementById('tFiles').click()">
+      <div class="upload-title">📎 Attach files (Spreadsheets, Photos, PDFs)</div>
+      <div class="upload-hint">Tap to select — files save straight to the RitualEase Drive</div>
+      <input type="file" id="tFiles" multiple onchange="showFiles()">
+      <div id="filePills" class="file-pills"></div>
     </div>
-    <div>
-      <label>RitualEase Email</label>
-      <input type="email" id="tEmail" placeholder="name@ritualease.com">
-    </div>
+
+    <button class="btn-primary" id="submitBtn" onclick="submitWork()">Submit Update</button>
+    <div id="resultArea"></div>
   </div>
-
-  <label>What Work Did You Do? (Write everything here)</label>
-  <textarea id="tWork" placeholder="Example: Distributed 300 Blinkit inserts in Gaur City 2 (0 returned). Quoted Neha ji ₹8,500 for Satyanarayan Katha (follow-up tomorrow 11 AM) and reminded her about 3 thalis/katoris & Brahman Vastra. Locked MM Cakes 1.5kg non-fondant cake at ₹1,200."></textarea>
-
-  <label>Attach Spreadsheets, Flyers, Invoices or Images (Auto-saves to Google Drive)</label>
-  <div class="drop-zone" onclick="document.getElementById('tFiles').click()">
-    <div>📎 <strong>Tap to attach files</strong> (.xlsx, .csv, .pdf, .jpg, .png)</div>
-    <div style="font-size:12px; color:var(--muted); margin-top:4px;">Files upload directly to your RitualEase Drive folder & index into the Brain</div>
-    <input type="file" id="tFiles" multiple onchange="showFiles()">
-    <div id="fileList" class="file-list"></div>
-  </div>
-
-  <button class="btn" id="submitBtn" onclick="submitWork()">⚡ Auto-Split, Save to Drive & Update Brain</button>
-  <div id="splitResult"></div>
-</div>
-
 </main>
-<footer>
-  <strong>ritualease.com</strong> • Noida, Greater Noida, Greater Noida West (201301) & Ghaziabad • +91 95990 54850 • @ritualease
-</footer>
+
+<footer>ritualease.com • Noida, Greater Noida & Ghaziabad</footer>
+
 <script src="brain.js"></script>
 <script>
-
 function showFiles() {
   const files = Array.from(document.getElementById("tFiles").files);
-  document.getElementById("fileList").innerHTML = files.length ? "✅ Ready to upload to Drive: " + files.map(f => f.name).join(", ") : "";
+  document.getElementById("filePills").textContent = files.length
+    ? "Attached: " + files.map(f => f.name).join(", ")
+    : "";
 }
+
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => resolve({ name: file.name, mimeType: file.type || "application/octet-stream", base64: reader.result.split(",")[1] });
+    reader.onload = () => resolve({
+      name: file.name,
+      mimeType: file.type || "application/octet-stream",
+      base64: reader.result.split(",")[1]
+    });
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
 }
+
 async function submitWork() {
   const name = document.getElementById("tName").value.trim();
-  const role = document.getElementById("tRole").value;
   const email = document.getElementById("tEmail").value.trim();
   const rawText = document.getElementById("tWork").value.trim();
   const fileInput = document.getElementById("tFiles");
 
   if (!name || !email || !rawText) {
-    alert("Please enter your Name, RitualEase Email, and What Work You Did.");
+    alert("Please fill in your name, RitualEase email, and work update.");
     return;
   }
+
   const btn = document.getElementById("submitBtn");
   btn.disabled = true;
-  btn.textContent = "⏳ Auto-Splitting & Saving to Drive...";
+  btn.textContent = "Saving & organizing...";
 
-  const parsed = smartSplitUpdate(rawText);
+  const parsed = smartSplitLocal(rawText);
   const filesPayload = [];
-  for (const f of Array.from(fileInput.files)) filesPayload.push(await fileToBase64(f));
+  for (const f of Array.from(fileInput.files)) {
+    filesPayload.push(await fileToBase64(f));
+  }
 
   const entry = {
     id: "RE-" + Date.now().toString().slice(-6),
-    timestamp: Date.now(),
     time: new Date().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }),
-    name, role, email,
+    name,
+    role: "Team",
+    email,
     categories: parsed.activeCategories,
-    buckets: parsed.buckets,
     splitSummary: parsed.splitSummary,
     rawText,
     fileNames: filesPayload.map(f => f.name),
     gaps: parsed.gaps,
     outcomeResolved: parsed.gaps.length === 0,
-    followupNote: "",
-    folderId: localStorage.getItem("re_folder_id") || ""
+    followupNote: ""
   };
 
-  let driveStatus = "Saved in Brain (Connect Drive Script in Portal 3 for Cloud Drive sync)";
-  const scriptUrl = localStorage.getItem("re_script_url");
+  let aiText = parsed.splitSummary;
+  let cloudNote = "Saved";
+  const scriptUrl = getScriptUrl();
+
   if (scriptUrl) {
     try {
-      await fetch(scriptUrl, { method: "POST", mode: "no-cors", body: JSON.stringify({ ...entry, files: filesPayload }) });
-      driveStatus = filesPayload.length ? `✅ Synced to Brain Sheet & Uploaded ${filesPayload.length} file(s) to Drive!` : "✅ Synced & Split into Brain Sheet!";
-    } catch (e) { driveStatus = "⚠️ Saved locally (Cloud sync retry pending)"; }
+      const res = await fetch(scriptUrl, {
+        method: "POST",
+        body: JSON.stringify({ ...entry, files: filesPayload })
+      });
+      const data = await res.json();
+      if (data.aiAnalysis) aiText = data.aiAnalysis;
+      cloudNote = filesPayload.length
+        ? `Saved & uploaded ${filesPayload.length} file(s) to Drive`
+        : "Saved & synced with Brain";
+    } catch (e) {
+      cloudNote = "Saved";
+    }
   }
 
   const logs = getEntries();
-  logs.unshift(entry);
+  logs.unshift({ ...entry, splitSummary: aiText });
   saveEntries(logs);
 
-  let html = `<div class="result-box">
-    <div style="margin-bottom:8px;"><span class="pill pill-ok">${entry.id}</span> <span class="pill">${driveStatus}</span></div>
-    <strong>Auto-Split Into Brain Sections:</strong><br>`;
-  parsed.activeCategories.forEach(cat => {
-    html += `<div style="margin-top:8px;"><span class="pill">${cat}</span><br>${parsed.buckets[cat].join(" ")}</div>`;
-  });
-  if (entry.fileNames.length) html += `<div style="margin-top:8px;"><span class="pill pill-ok">📎 Drive Attachments</span> ${entry.fileNames.join(", ")}</div>`;
-  if (parsed.gaps.length) {
-    html += `<div style="margin-top:10px;">${parsed.gaps.map(g => `<span class="pill pill-bad">🚨 Flagged for Admin Follow-Up: ${g}</span>`).join("<br>")}</div>`;
-  }
-  if (parsed.alerts.length) {
-    html += `<div style="margin-top:8px;">${parsed.alerts.map(a => `<span class="pill pill-warn">${a}</span>`).join("<br>")}</div>`;
-  }
-  html += `</div>`;
-  document.getElementById("splitResult").innerHTML = html;
+  document.getElementById("resultArea").innerHTML = `
+    <div class="response-card">
+      <div style="margin-bottom:8px;">
+        <span class="tag tag-ok">✓ ${cloudNote}</span>
+        ${entry.fileNames.length ? `<span class="tag">📎 ${entry.fileNames.join(", ")}</span>` : ""}
+      </div>
+      <strong>Organized Summary:</strong><br>${aiText}
+    </div>`;
 
   document.getElementById("tWork").value = "";
   fileInput.value = "";
-  document.getElementById("fileList").innerHTML = "";
+  document.getElementById("filePills").textContent = "";
   btn.disabled = false;
-  btn.textContent = "⚡ Auto-Split, Save to Drive & Update Brain";
+  btn.textContent = "Submit Update";
 }
-
 </script>
 </body>
 </html>
