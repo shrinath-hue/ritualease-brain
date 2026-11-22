@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Ask RitualEase — RitualEase Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,21 +24,26 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  body {
+  html, body {
+    height: 100%;
     background-color: var(--ivory);
     color: var(--ink);
     font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* 1. Top Crimson Accent Bar */
+  body {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 1. Top Crimson Accent Strip */
   .top-crimson-bar {
-    height: 7px;
+    height: 6px;
     width: 100%;
     background: var(--crimson);
     flex-shrink: 0;
@@ -47,7 +52,7 @@
   /* 2. Official RitualEase Intelligence Header (100% Flat Bottom Edge) */
   .brand-header {
     background: var(--ivory);
-    padding: 18px 24px 16px 24px;
+    padding: 16px 20px 14px 20px;
     text-align: center;
     border-bottom: 1px solid var(--hairline);
     flex-shrink: 0;
@@ -57,15 +62,16 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    gap: 13px;
     text-decoration: none;
   }
 
   .logo-mark-img {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     object-fit: contain;
     display: block;
+    flex-shrink: 0;
   }
 
   .logo-text-stack {
@@ -78,14 +84,14 @@
   .logo-title-row {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    gap: 7px;
     flex-wrap: wrap;
   }
 
   .logo-brand-name {
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 800;
-    font-size: 1.75rem;
+    font-size: 1.65rem;
     letter-spacing: -0.025em;
     color: var(--crimson);
     line-height: 1;
@@ -94,7 +100,7 @@
   .logo-intelligence {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 700;
-    font-size: 1.55rem;
+    font-size: 1.48rem;
     color: var(--ink);
     line-height: 1;
     letter-spacing: -0.01em;
@@ -104,36 +110,36 @@
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-style: italic;
     font-weight: 600;
-    font-size: 0.98rem;
+    font-size: 0.95rem;
     color: var(--ink-muted);
     margin-top: 3px;
   }
 
-  /* 3. Clean Editorial Chat Workspace */
+  /* 3. Responsive Editorial Chat Workspace */
   .workspace-wrap {
-    flex: 1;
+    flex: 1 1 auto;
     width: 100%;
-    max-width: 960px;
+    max-width: 980px;
     margin: 0 auto;
-    padding: 20px 20px 24px 20px;
+    padding: 18px 20px 22px 20px;
     display: flex;
     flex-direction: column;
   }
 
   .workspace-card {
-    flex: 1;
+    flex: 1 1 auto;
     background: var(--card-bg);
     border: 1px solid var(--hairline);
     border-radius: 16px;
     box-shadow: 0 10px 28px rgba(56, 39, 42, 0.045);
     display: flex;
     flex-direction: column;
-    min-height: 490px;
+    min-height: 460px;
     overflow: hidden;
   }
 
   .workspace-bar {
-    padding: 15px 24px;
+    padding: 14px 22px;
     background: var(--ivory);
     border-bottom: 1px solid var(--hairline);
     display: flex;
@@ -145,7 +151,7 @@
   .workspace-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     color: var(--ink);
     border: none !important;
     text-decoration: none !important;
@@ -162,22 +168,25 @@
     padding: 7px 14px;
     border-radius: 9px;
     cursor: pointer;
+    white-space: nowrap;
     transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   }
 
-  .btn-new-chat:hover {
+  .btn-new-chat:hover,
+  .btn-new-chat:active {
     border-color: var(--crimson);
     color: var(--crimson);
     background: var(--ivory);
   }
 
   .chat-stream {
-    flex: 1;
+    flex: 1 1 auto;
     overflow-y: auto;
-    padding: 24px 28px;
+    -webkit-overflow-scrolling: touch;
+    padding: 22px 24px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
     background: #FFFDFB;
   }
 
@@ -188,7 +197,7 @@
 
   .entry.user {
     align-self: flex-end;
-    max-width: 80%;
+    max-width: 82%;
   }
 
   .entry.assistant {
@@ -199,10 +208,11 @@
   .entry.user .entry-body {
     background: var(--crimson);
     color: #FFFFFF;
-    padding: 13px 18px;
+    padding: 12px 17px;
     border-radius: 14px 14px 4px 14px;
     font-size: 0.96rem;
     line-height: 1.55;
+    word-break: break-word;
     box-shadow: 0 3px 10px rgba(186, 40, 72, 0.14);
   }
 
@@ -210,11 +220,12 @@
     background: var(--ivory);
     border: 1px solid var(--hairline);
     border-left: 3.5px solid var(--gold);
-    padding: 18px 22px;
+    padding: 16px 20px;
     border-radius: 6px 14px 14px 14px;
     font-size: 0.96rem;
-    line-height: 1.68;
+    line-height: 1.66;
     color: var(--ink);
+    overflow-x: auto;
   }
 
   .entry-actions {
@@ -229,20 +240,28 @@
     border: none;
     color: var(--crimson);
     font-family: 'Nunito Sans', sans-serif;
-    font-size: 0.76rem;
+    font-size: 0.78rem;
     font-weight: 700;
     cursor: pointer;
-    padding: 0;
+    padding: 2px 0;
   }
 
   .copy-btn:hover {
     text-decoration: underline;
   }
 
+  /* Responsive Tables inside Responses */
+  .table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 12px 0;
+  }
+
   .entry-body table {
     width: 100%;
+    min-width: 440px;
     border-collapse: collapse;
-    margin: 14px 0;
     font-size: 0.88rem;
     background: #FFFFFF;
   }
@@ -263,7 +282,7 @@
 
   .entry-body ul,
   .entry-body ol {
-    margin: 8px 0 8px 22px;
+    margin: 8px 0 8px 20px;
   }
 
   .entry-body li {
@@ -293,20 +312,23 @@
     font-family: 'Nunito Sans', sans-serif;
     font-size: 0.82rem;
     font-weight: 600;
-    padding: 7px 14px;
+    padding: 8px 14px;
     border-radius: 20px;
     cursor: pointer;
+    text-align: left;
     transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   }
 
-  .starter-pill:hover {
+  .starter-pill:hover,
+  .starter-pill:active {
     border-color: var(--crimson);
     color: var(--crimson);
     background: #FFFDF9;
   }
 
+  /* Composer Box (16px font prevents iOS Safari zoom on tap) */
   .composer-box {
-    padding: 16px 24px 18px 24px;
+    padding: 14px 22px 16px 22px;
     background: var(--ivory);
     border-top: 1px solid var(--hairline);
   }
@@ -319,17 +341,17 @@
 
   .composer-row textarea {
     flex: 1;
-    min-height: 82px;
-    max-height: 220px;
+    min-height: 76px;
+    max-height: 200px;
     resize: vertical;
-    padding: 14px 16px;
+    padding: 12px 15px;
     border: 1.5px solid #D5BCA3;
     border-radius: 12px;
     background: #FFFFFF;
     color: var(--ink);
     font-family: 'Nunito Sans', sans-serif;
-    font-size: 0.98rem;
-    line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.48;
   }
 
   .composer-row textarea:focus {
@@ -347,7 +369,7 @@
     border: none;
     border-radius: 12px;
     font-family: 'Nunito Sans', sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.96rem;
     font-weight: 700;
     cursor: pointer;
   }
@@ -367,11 +389,11 @@
     color: var(--ink-muted);
   }
 
-  /* 4. Static Brand Kit v4 Sand Footer (#F8E8D4) — Auto Facing Opposite to Home, Paved Road in Between, Boy & House on Right */
+  /* 4. Static Brand Kit v4 Sand Footer (#F8E8D4) — Responsive Desktop + Phone Scene */
   .brand-footer {
     background: var(--sand);
     border-top: 2px solid #E5CEB5;
-    padding-top: 14px;
+    padding-top: 12px;
     margin-top: auto;
     flex-shrink: 0;
   }
@@ -379,7 +401,7 @@
   .mascot-scene {
     position: relative;
     max-width: 1060px;
-    height: 205px;
+    height: 195px;
     margin: 0 auto;
     padding: 0 28px;
     display: flex;
@@ -387,13 +409,12 @@
     justify-content: space-between;
   }
 
-  /* Paved Dashed Road Connecting Auto and House */
   .paved-road {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 24px;
+    height: 22px;
     background: #524D4F;
     border-top: 2px solid #756F72;
     z-index: 1;
@@ -404,7 +425,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 10px;
+    top: 9px;
     height: 3px;
     background-image: repeating-linear-gradient(
       to right,
@@ -415,12 +436,12 @@
     );
   }
 
-  /* Left End: Exact 3D E-Cargo Auto Mascot Facing Opposite to Home (Natural Left-Facing Orientation) */
+  /* Left End: Exact 3D E-Cargo Auto Mascot Facing Opposite to Home */
   .auto-static {
     position: relative;
     z-index: 3;
-    width: 195px;
-    margin-bottom: 10px;
+    width: 185px;
+    margin-bottom: 9px;
   }
 
   .auto-static img {
@@ -434,8 +455,8 @@
   .home-static {
     position: relative;
     z-index: 3;
-    width: 245px;
-    margin-bottom: 8px;
+    width: 235px;
+    margin-bottom: 7px;
   }
 
   .home-static img {
@@ -448,7 +469,7 @@
   .footer-bar-bottom {
     background: #EFE0CC;
     border-top: 1px solid #DFC9AF;
-    padding: 8px 24px;
+    padding: 8px 20px calc(8px + env(safe-area-inset-bottom)) 20px;
   }
 
   .footer-bar-inner {
@@ -460,21 +481,104 @@
     font-size: 0.78rem;
     color: var(--ink-muted);
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
   }
 
   .footer-bar-inner strong {
     color: var(--crimson);
   }
 
-  @media (max-width: 720px) {
-    .workspace-wrap { padding: 12px; }
-    .chat-stream { padding: 16px; }
-    .composer-row { flex-direction: column; align-items: stretch; }
-    .btn-send { width: 100%; }
-    .mascot-scene { height: 155px; padding: 0 12px; }
-    .auto-static { width: 135px; }
-    .home-static { width: 175px; }
+  /* === TABLET & MOBILE PHONE OPTIMIZATIONS === */
+  @media (max-width: 680px) {
+    .brand-header {
+      padding: 12px 14px 11px 14px;
+    }
+    .logo-mark-img {
+      width: 38px;
+      height: 38px;
+    }
+    .logo-brand-name {
+      font-size: 1.32rem;
+    }
+    .logo-intelligence {
+      font-size: 1.2rem;
+    }
+    .logo-tagline {
+      font-size: 0.84rem;
+    }
+    .workspace-wrap {
+      padding: 10px 10px 14px 10px;
+    }
+    .workspace-card {
+      border-radius: 14px;
+      min-height: 420px;
+    }
+    .workspace-bar {
+      padding: 11px 14px;
+    }
+    .workspace-title {
+      font-size: 1.28rem;
+    }
+    .chat-stream {
+      padding: 14px 14px;
+      gap: 14px;
+    }
+    .entry.user {
+      max-width: 90%;
+    }
+    .entry.assistant .entry-body {
+      padding: 13px 15px;
+      font-size: 0.94rem;
+    }
+    .starter-row {
+      flex-direction: column;
+    }
+    .starter-pill {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .composer-box {
+      padding: 12px 14px 14px 14px;
+    }
+    .composer-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 9px;
+    }
+    .composer-row textarea {
+      min-height: 64px;
+    }
+    .btn-send {
+      width: 100%;
+      height: 46px;
+    }
+    .composer-note {
+      display: none;
+    }
+    .mascot-scene {
+      height: 124px;
+      padding: 0 12px;
+    }
+    .paved-road {
+      height: 16px;
+    }
+    .paved-road::after {
+      top: 6px;
+      height: 2px;
+    }
+    .auto-static {
+      width: 112px;
+      margin-bottom: 6px;
+    }
+    .home-static {
+      width: 146px;
+      margin-bottom: 5px;
+    }
+    .footer-bar-inner {
+      justify-content: center;
+      text-align: center;
+      font-size: 0.72rem;
+    }
   }
 </style>
 </head>
@@ -537,10 +641,21 @@
     </div>
   </footer>
 
-<script src="brain.js?v=16"></script>
+<script src="brain.js?v=18"></script>
 <script>
 let chatHistory = [];
 let isBusy = false;
+
+function resolveScriptUrl() {
+  if (typeof getScriptUrl === "function") {
+    const u = getScriptUrl();
+    if (u && u.indexOf("http") === 0) return u;
+  }
+  if (typeof DEFAULT_SCRIPT_URL !== "undefined" && DEFAULT_SCRIPT_URL.indexOf("http") === 0) {
+    return DEFAULT_SCRIPT_URL;
+  }
+  return (localStorage.getItem("ritualease_script_url") || "").trim();
+}
 
 function initChat() {
   const stream = document.getElementById("chatStream");
@@ -570,7 +685,7 @@ function resetChat() {
 }
 
 document.getElementById("qInput").addEventListener("keydown", function(e) {
-  if (e.key === "Enter" && !e.shiftKey) {
+  if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 680) {
     e.preventDefault();
     sendMessage();
   }
@@ -582,7 +697,7 @@ async function sendMessage() {
   const q = input.value.trim();
   if (!q) { input.focus(); return; }
 
-  const scriptUrl = getScriptUrl();
+  const scriptUrl = resolveScriptUrl();
   if (!scriptUrl) {
     appendEntry("assistant", "⚠️ **DEFAULT_SCRIPT_URL** is missing in `brain.js` on GitHub.");
     return;
@@ -630,7 +745,7 @@ async function sendMessage() {
   isBusy = false;
   btn.disabled = false;
   btn.textContent = "Send ↵";
-  input.focus();
+  if (window.innerWidth > 680) input.focus();
 }
 
 function appendEntry(role, text, id) {
@@ -700,14 +815,14 @@ function renderMarkdown(md) {
       if (cells.every(c => /^[-:]+$/.test(c))) continue;
 
       if (!inTable) {
-        html += "<table><thead><tr>" + cells.map(c => "<th>" + inlineFormat(c) + "</th>").join("") + "</tr></thead><tbody>";
+        html += '<div class="table-scroll"><table><thead><tr>' + cells.map(c => "<th>" + inlineFormat(c) + "</th>").join("") + "</tr></thead><tbody>";
         inTable = true;
       } else {
         html += "<tr>" + cells.map(c => "<td>" + inlineFormat(c) + "</td>").join("") + "</tr>";
       }
       continue;
     } else if (inTable) {
-      html += "</tbody></table>";
+      html += "</tbody></table></div>";
       inTable = false;
     }
 
@@ -733,7 +848,7 @@ function renderMarkdown(md) {
     }
   }
 
-  if (inTable) html += "</tbody></table>";
+  if (inTable) html += "</tbody></table></div>";
   if (inList) html += "</ul>";
   return html;
 }
