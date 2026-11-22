@@ -3,60 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ritualease.com — Team Update</title>
-<link rel="stylesheet" href="styles.css">
+<title>Daily Update & File Drop — ritualease.com</title>
+<link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
-<div class="accent-strip"></div>
-<header>
-  <div class="brand-mark">
-    <span class="re-seal">RE</span>
-    <span class="brand-title">ritualease.com</span>
+<div class="top-accent"></div>
+<nav class="app-navbar">
+  <div class="app-navbar-inner">
+    <a href="index.html" class="brand-lockup">
+      <span class="re-monogram">RE</span>
+      <span class="brand-wordmark">ritualease.com</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-item active">Daily Update</a>
+      <a href="portal2_ask_brain.html" class="nav-item">Ask Intelligence</a>
+      <a href="portal3_admin_brain.html" class="nav-item">Admin & Rules</a>
+    </div>
   </div>
-  <div class="brand-sub">Celebrations, delivered at home</div>
-</header>
+</nav>
 
-<main>
-  <div class="surface">
-    <h1>Daily Work & File Drop</h1>
-    <p class="lead-text">Share what you worked on today and attach any spreadsheets, photos, or bills. Everything is saved and organized automatically.</p>
+<main class="page-wrap">
+  <div class="page-header">
+    <h1 class="page-title">Submit Daily Update & Files</h1>
+    <p class="page-desc">Log field activity, WhatsApp quotes, vendor rates, or attach spreadsheets/documents. Everything indexes automatically into Google Drive and the Operations Brain.</p>
+  </div>
 
-    <div class="grid-2">
-      <div class="field">
-        <label>Your Name</label>
-        <input type="text" id="tName" placeholder="e.g. Sumit">
+  <div class="panel-card">
+    <div class="form-grid-3">
+      <div>
+        <label class="field-label">Team Member Name</label>
+        <input type="text" id="tName" class="input-control" placeholder="e.g. Sumit / Neha">
       </div>
-      <div class="field">
-        <label>RitualEase Email</label>
-        <input type="email" id="tEmail" placeholder="name@ritualease.com">
+      <div>
+        <label class="field-label">Department / Role</label>
+        <select id="tRole" class="select-control">
+          <option>Field & Pamphlets</option>
+          <option>Sales & WhatsApp Concierge</option>
+          <option>Supply Chain & Vendors</option>
+          <option>Marketing & Content</option>
+          <option>Founder / Admin</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">Work Email</label>
+        <input type="email" id="tEmail" class="input-control" placeholder="name@ritualease.com">
       </div>
     </div>
 
-    <div class="field">
-      <label>What work did you do?</label>
-      <textarea id="tWork" placeholder="Write everything naturally here — leads quoted, pamphlets distributed & returned, vendor rates locked, or ad updates..."></textarea>
+    <div class="field-group">
+      <label class="field-label">Activity Summary</label>
+      <textarea id="tWork" class="textarea-control" placeholder="Write naturally—include pamphlet counts, society names, client quotes, vendor rates, or follow-ups..."></textarea>
     </div>
 
-    <div class="upload-box" onclick="document.getElementById('tFiles').click()">
-      <div class="upload-title">📎 Attach files (Spreadsheets, Photos, PDFs)</div>
-      <div class="upload-hint">Tap to select — files save straight to the RitualEase Drive</div>
-      <input type="file" id="tFiles" multiple onchange="showFiles()">
-      <div id="filePills" class="file-pills"></div>
+    <div class="field-group">
+      <label class="field-label">Attach Documents, Spreadsheets or Images (Optional)</label>
+      <div class="upload-box" onclick="document.getElementById('tFiles').click()">
+        <div class="upload-title">Click to select files (.xlsx, .docx, .pdf, .csv, .jpg, .png)</div>
+        <div class="upload-sub">Files upload directly to Google Drive and become searchable in Ask Intelligence</div>
+        <input type="file" id="tFiles" multiple onchange="renderSelectedFiles()">
+        <div id="fileList" style="margin-top:8px; font-size:13px; font-weight:600; color:var(--green);"></div>
+      </div>
     </div>
 
-    <button class="btn-primary" id="submitBtn" onclick="submitWork()">Submit Update</button>
-    <div id="resultArea"></div>
+    <button type="button" class="btn-solid" id="submitBtn" onclick="submitWork()">Save & Index Update</button>
+
+    <div id="resultArea" style="margin-top:20px;"></div>
   </div>
 </main>
 
-<footer>ritualease.com • Noida, Greater Noida & Ghaziabad</footer>
+<footer class="app-footer">ritualease.com · Noida · Greater Noida · Greater Noida West (201301) · Ghaziabad</footer>
 
-<script src="brain.js"></script>
+<script src="brain.js?v=20"></script>
 <script>
-function showFiles() {
+function renderSelectedFiles() {
   const files = Array.from(document.getElementById("tFiles").files);
-  document.getElementById("filePills").textContent = files.length
-    ? "Attached: " + files.map(f => f.name).join(", ")
+  document.getElementById("fileList").textContent = files.length
+    ? "Selected: " + files.map(f => f.name).join(", ")
     : "";
 }
 
@@ -75,78 +97,60 @@ function fileToBase64(file) {
 
 async function submitWork() {
   const name = document.getElementById("tName").value.trim();
+  const role = document.getElementById("tRole").value;
   const email = document.getElementById("tEmail").value.trim();
   const rawText = document.getElementById("tWork").value.trim();
   const fileInput = document.getElementById("tFiles");
+  const scriptUrl = getScriptUrl();
 
-  if (!name || !email || !rawText) {
-    alert("Please fill in your name, RitualEase email, and work update.");
+  if (!name || !rawText) {
+    alert("Please enter your name and activity summary.");
     return;
   }
 
   const btn = document.getElementById("submitBtn");
+  const resultArea = document.getElementById("resultArea");
   btn.disabled = true;
-  btn.textContent = "Saving & organizing...";
+  btn.textContent = "Uploading & Indexing...";
 
-  const parsed = smartSplitLocal(rawText);
-  const filesPayload = [];
-  for (const f of Array.from(fileInput.files)) {
-    filesPayload.push(await fileToBase64(f));
-  }
-
-  const entry = {
-    id: "RE-" + Date.now().toString().slice(-6),
-    time: new Date().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }),
-    name,
-    role: "Team",
-    email,
-    categories: parsed.activeCategories,
-    splitSummary: parsed.splitSummary,
-    rawText,
-    fileNames: filesPayload.map(f => f.name),
-    gaps: parsed.gaps,
-    outcomeResolved: parsed.gaps.length === 0,
-    followupNote: ""
-  };
-
-  let aiText = parsed.splitSummary;
-  let cloudNote = "Saved";
-  const scriptUrl = getScriptUrl();
-
-  if (scriptUrl) {
-    try {
-      const res = await fetch(scriptUrl, {
-        method: "POST",
-        body: JSON.stringify({ ...entry, files: filesPayload })
-      });
-      const data = await res.json();
-      if (data.aiAnalysis) aiText = data.aiAnalysis;
-      cloudNote = filesPayload.length
-        ? `Saved & uploaded ${filesPayload.length} file(s) to Drive`
-        : "Saved & synced with Brain";
-    } catch (e) {
-      cloudNote = "Saved";
+  try {
+    const filesPayload = [];
+    for (const f of Array.from(fileInput.files)) {
+      filesPayload.push(await fileToBase64(f));
     }
+
+    const payload = {
+      id: "RE-" + Date.now().toString().slice(-6),
+      name, role, email,
+      categories: [role],
+      rawText,
+      files: filesPayload
+    };
+
+    const res = await fetch(scriptUrl, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    resultArea.innerHTML = `
+      <div style="padding:18px; background:var(--bg-canvas); border:1px solid var(--border); border-radius:var(--radius-md);">
+        <div style="margin-bottom:10px;">
+          <span class="badge badge-green">Logged · ${payload.id}</span>${data.files && data.files.length ? `<span class="badge badge-crimson">${data.files.length} Drive File(s) Saved</span>` : ""}
+        </div>
+        <div style="font-size:14px; line-height:1.65; white-space:pre-wrap;">${(data.aiAnalysis || "Update recorded.").replace(/</g, "&lt;")}</div>
+      </div>
+    `;
+
+    document.getElementById("tWork").value = "";
+    fileInput.value = "";
+    document.getElementById("fileList").textContent = "";
+  } catch (err) {
+    resultArea.innerHTML = `<div class="badge badge-amber">Error: ${err.message}</div>`;
   }
 
-  const logs = getEntries();
-  logs.unshift({ ...entry, splitSummary: aiText });
-  saveEntries(logs);
-
-  document.getElementById("resultArea").innerHTML = `
-    <div class="response-card">
-      <div style="margin-bottom:8px;">
-        <span class="tag tag-ok">✓ ${cloudNote}</span>
-        ${entry.fileNames.length ? `<span class="tag">📎 ${entry.fileNames.join(", ")}</span>` : ""}
-      </div>
-      <strong>Organized Summary:</strong><br>${aiText}
-    </div>`;
-
-  document.getElementById("tWork").value = "";
-  fileInput.value = "";
-  document.getElementById("filePills").textContent = "";
   btn.disabled = false;
-  btn.textContent = "Submit Update";
+  btn.textContent = "Save & Index Update";
 }
 </script>
 </body>
