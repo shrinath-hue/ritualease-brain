@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ask RitualEase Brain — ritualease.com</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
 <div class="accent-strip"></div>
@@ -22,7 +22,7 @@
     <p class="lead-text">Ask anything across your Drive folders, spreadsheets, docs, packages, and daily team logs.</p>
 
     <div class="field">
-      <textarea id="qInput" style="min-height:110px;" placeholder="Type your question here... (e.g., How many pamphlets were distributed this week? Which leads need follow-up? What are the Satyanarayan Katha utensil rules?)"></textarea>
+      <textarea id="qInput" style="min-height:110px;" placeholder="Ask anything... (e.g., How are you? Or: What utensils does a customer need for Satyanarayan Katha? How many pamphlets were distributed this week?)"></textarea>
     </div>
 
     <button class="btn-primary" id="askBtn" onclick="askBrain()">Ask RitualEase</button>
@@ -33,7 +33,7 @@
 
 <footer>ritualease.com • Private Brain Query</footer>
 
-<script src="brain.js"></script>
+<script src="brain.js?v=6"></script>
 <script>
 document.getElementById("qInput").addEventListener("keydown", function(e) {
   if ((e.metaKey || e.ctrlKey) && e.key === "Enter") askBrain();
@@ -48,42 +48,38 @@ async function askBrain() {
 
   const btn = document.getElementById("askBtn");
   const area = document.getElementById("answerArea");
-  btn.disabled = true;
-  btn.textContent = "Thinking across your Drive & Brain...";
-  area.innerHTML = `<div class="response-card" style="color:var(--muted);">Reading your sheets, docs, images, and team logs...</div>`;
-
   const scriptUrl = getScriptUrl();
 
-  // 1. Live Google Apps Script + Gemini AI + Drive Folder Search
-  if (scriptUrl) {
-    try {
-      const url = scriptUrl + (scriptUrl.includes("?") ? "&" : "?") + "q=" + encodeURIComponent(q);
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data.answer) {
-        area.innerHTML = `<div class="response-card">${formatAnswer(data.answer)}</div>`;
-        btn.disabled = false;
-        btn.textContent = "Ask RitualEase";
-        return;
-      }
-    } catch (err) {
-      // Fallback smoothly to local logs if offline
-    }
+  if (!scriptUrl) {
+    area.innerHTML = `<div class="response-card">⚠️ <strong>DEFAULT_SCRIPT_URL</strong> is still empty inside <strong>brain.js</strong> on GitHub.</div>`;
+    return;
   }
 
-  // 2. Fallback search if Apps Script URL is not yet added in brain.js
-  const logs = getEntries();
-  const terms = q.toLowerCase().split(/\W+/).filter(w => w.length > 2);
-  const matches = logs.filter(l => {
-    const blob = `${l.name} ${l.splitSummary} ${l.rawText} ${(l.fileNames||[]).join(" ")}`.toLowerCase();
-    return terms.some(t => blob.includes(t));
-  });
+  btn.disabled = true;
+  btn.textContent = "Thinking across your Drive & Brain...";
+  area.innerHTML = `<div class="response-card" style="color:var(--muted);">Reading your sheets, docs, and team logs...</div>`;
 
-  if (matches.length) {
-    const summary = matches.map(m => `• ${m.name} (${m.time}): ${m.splitSummary || m.rawText}`).join("\n");
-    area.innerHTML = `<div class="response-card">${formatAnswer(summary)}</div>`;
-  } else {
-    area.innerHTML = `<div class="response-card">No matching records found yet. Make sure your Google Apps Script URL is added to <strong>brain.js</strong> so I can read your full Drive folder and Google Sheets.</div>`;
+  try {
+    const url = scriptUrl + (scriptUrl.includes("?") ? "&" : "?") + "q=" + encodeURIComponent(q);
+    const res = await fetch(url);
+    const raw = await res.text();
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch (e) {
+      area.innerHTML = `<div class="response-card">⚠️ Apps Script returned a login/HTML page instead of JSON. Open Apps Script → Deploy → Manage deployments → Edit (✏️) and set <strong>Who has access: Anyone</strong>.</div>`;
+      btn.disabled = false;
+      btn.textContent = "Ask RitualEase";
+      return;
+    }
+
+    if (data.answer) {
+      area.innerHTML = `<div class="response-card">${formatAnswer(data.answer)}</div>`;
+    } else {
+      area.innerHTML = `<div class="response-card">⚠️ Unexpected response: ${raw}</div>`;
+    }
+  } catch (err) {
+    area.innerHTML = `<div class="response-card">⚠️ Connection error: ${err.message}. Check that Apps Script is deployed as <strong>Who has access: Anyone</strong>.</div>`;
   }
 
   btn.disabled = false;
