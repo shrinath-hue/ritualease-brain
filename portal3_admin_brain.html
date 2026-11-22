@@ -3,261 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Command & Brain Training — ritualease.com</title>
-<link rel="stylesheet" href="styles.css">
+<title>Admin & Operations Ledger — ritualease.com</title>
+<link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
-<div class="accent-strip"></div>
-<header>
-  <div class="brand-mark">
-    <span class="re-seal">RE</span>
-    <span class="brand-title">ritualease.com</span>
-  </div>
-  <div class="brand-sub">Founder & Admin Command</div>
-</header>
-
-<main class="wide">
-  <!-- 1. MISSING FOLLOW-UP & OUTCOME RADAR -->
-  <div class="surface">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
-      <h1>Missing Follow-Ups & Incomplete Outcomes</h1>
-      <span class="tag tag-bad" id="gapBadge">0 Pending</span>
+<div class="top-accent"></div>
+<nav class="app-navbar">
+  <div class="app-navbar-inner">
+    <a href="index.html" class="brand-lockup">
+      <span class="re-monogram">RE</span>
+      <span class="brand-wordmark">ritualease.com</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-item">Daily Update</a>
+      <a href="portal2_ask_brain.html" class="nav-item">Ask Intelligence</a>
+      <a href="portal3_admin_brain.html" class="nav-item active">Admin & Rules</a>
     </div>
-    <p class="lead-text">Automatically catches entries where a lead was quoted without a booking/follow-up outcome, pamphlets were issued without return counts, or vendor rates were left open.</p>
-    <div id="gapList"></div>
   </div>
+</nav>
 
-  <!-- 2. VIEW, FILTER & SORT ALL RESPONSES -->
-  <div class="surface">
-    <h1>Team Responses & Drive Uploads</h1>
-    <div class="grid-2" style="margin-top:14px;">
-      <div class="field">
-        <label>Filter</label>
-        <select id="fFilter" onchange="renderAdmin()">
-          <option value="ALL">All Responses</option>
-          <option value="MISSING">Only Missing Outcomes</option>
-          <option value="Field & Pamphlets">Field & Pamphlets</option>
-          <option value="Sales & WhatsApp Leads">Sales & WhatsApp Leads</option>
-          <option value="Supply Chain & Vendors">Supply Chain & Vendors</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Search Name or Keyword</label>
-        <input type="text" id="fSearch" placeholder="Filter by team member or word..." oninput="renderAdmin()">
-      </div>
-      <div class="field">
-        <label>Sort</label>
-        <select id="fSort" onchange="renderAdmin()">
-          <option value="NEW">Newest First</option>
-          <option value="OLD">Oldest First</option>
-          <option value="GAPS">Missing Outcomes First</option>
-        </select>
-      </div>
+<main class="page-wrap" style="max-width:1080px;">
+  <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;">
+    <div>
+      <h1 class="page-title">Operations Ledger & Drive Sync</h1>
+      <p class="page-desc">Live audit log of all team submissions, uploaded Drive attachments, and operational flags.</p>
     </div>
-
-    <div style="overflow-x:auto;">
-      <table>
-        <thead>
-          <tr>
-            <th>Team Member</th>
-            <th>Organized Update</th>
-            <th>Drive Files</th>
-            <th>Outcome</th>
-          </tr>
-        </thead>
-        <tbody id="adminRows"></tbody>
-      </table>
+    <div style="display:flex; gap:8px;">
+      <button type="button" class="btn-outline" id="syncBtn" onclick="triggerSync()">↻ Re-Index Drive Folder</button>
+      <button type="button" class="btn-outline" onclick="loadLogs()">Refresh Table</button>
     </div>
   </div>
 
-  <!-- 3. TRAIN & INSTRUCT THE BRAIN -->
-  <div class="surface">
-    <h1>Train & Instruct the Brain</h1>
-    <p class="lead-text">Teach new SOPs, categorization rules, or follow-up checks. Applied automatically to future updates and queries.</p>
-    <div class="grid-2">
-      <div class="field">
-        <label>Section Name</label>
-        <input type="text" id="rSec" placeholder="e.g. Clubhouse Pujas">
-      </div>
-      <div class="field">
-        <label>Trigger Keywords</label>
-        <input type="text" id="rKw" placeholder="e.g. clubhouse, bulk, noc">
-      </div>
-    </div>
-    <div class="field">
-      <label>Instruction for the Brain</label>
-      <textarea id="rInst" style="min-height:80px;" placeholder="e.g. Always verify society NOC and 30-pax catering confirmation 48 hours before any Clubhouse Puja."></textarea>
-    </div>
-    <button class="btn-primary btn-gold" onclick="addRule()">Save Instruction to Brain</button>
-    <div id="rulesArea" style="margin-top:16px;"></div>
-  </div>
-
-  <!-- 4. BACKEND CONNECTION -->
-  <div class="surface">
-    <h1>Google Drive & Sheet Connection</h1>
-    <p class="lead-text">Connect your Google Apps Script URL so live Google Sheet rows and Drive uploads sync here automatically.</p>
-    <div class="field">
-      <label>Google Apps Script Web App URL (/exec)</label>
-      <input type="url" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec">
-    </div>
-    <button class="btn-primary" onclick="saveScriptUrl()">Save & Sync Live Sheet</button>
+  <div class="panel-card" style="padding:0; overflow-x:auto;">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width:140px;">Date & ID</th>
+          <th style="width:170px;">Team Member</th>
+          <th>Structured Audit & Summary</th>
+          <th style="width:190px;">Drive Files</th>
+        </tr>
+      </thead>
+      <tbody id="logsBody">
+        <tr><td colspan="4" style="text-align:center; padding:32px; color:var(--ink-muted);">Loading operations ledger...</td></tr>
+      </tbody>
+    </table>
   </div>
 </main>
 
-<footer>ritualease.com • Admin Access Only</footer>
+<footer class="app-footer">ritualease.com · Operations Command</footer>
 
-<script src="brain.js"></script>
+<script src="brain.js?v=20"></script>
 <script>
-document.getElementById("scriptUrl").value = getScriptUrl();
-
-async function saveScriptUrl() {
-  const val = document.getElementById("scriptUrl").value.trim();
-  localStorage.setItem("re_script_url", val);
-  await syncFromCloud();
-  renderAdmin();
-  alert("Connected & synced!");
-}
-
-async function syncFromCloud() {
-  const url = getScriptUrl();
-  if (!url) return;
+async function loadLogs() {
+  const scriptUrl = getScriptUrl();
+  const tbody = document.getElementById("logsBody");
   try {
-    const res = await fetch(url);
+    const res = await fetch(scriptUrl);
     const data = await res.json();
-    if (data.rows && data.rows.length > 1) {
-      const localMap = {};
-      getEntries().forEach(e => { localMap[e.id] = e; });
-      const merged = data.rows.slice(1).reverse().map(r => {
-        const id = r[1] || ("RE-" + Math.random().toString(36).slice(2, 7));
-        const existing = localMap[id] || {};
-        const raw = r[8] || "";
-        const gaps = detectMissingOutcome(raw);
-        return {
-          time: new Date(r[0]).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }),
-          id,
-          name: r[2] || "Team",
-          email: r[4] || "",
-          categories: (r[5] || "").split(", ").filter(Boolean),
-          splitSummary: r[6] || raw,
-          fileNames: r[7] ? r[7].split(" | ") : [],
-          rawText: raw,
-          gaps,
-          outcomeResolved: existing.outcomeResolved || gaps.length === 0,
-          followupNote: existing.followupNote || ""
-        };
-      });
-      saveEntries(merged);
+    const rows = (data.rows || []).slice(1).reverse();
+    if (!rows.length) {
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:32px; color:var(--ink-muted);">No team updates logged yet.</td></tr>`;
+      return;
     }
-  } catch (e) {}
-}
-
-function logOutcome(id) {
-  const note = prompt("Enter the follow-up outcome (e.g. 'Booked for 28 Nov, advance paid' or '0 pamphlets returned'):");
-  if (!note || !note.trim()) return;
-  const logs = getEntries();
-  const idx = logs.findIndex(x => x.id === id);
-  if (idx > -1) {
-    logs[idx].outcomeResolved = true;
-    logs[idx].followupNote = note.trim();
-    saveEntries(logs);
-    renderAdmin();
-  }
-}
-
-function addRule() {
-  const section = document.getElementById("rSec").value.trim();
-  const keywords = document.getElementById("rKw").value.trim();
-  const instruction = document.getElementById("rInst").value.trim();
-  if (!section || !instruction) return;
-  const rules = getCustomRules();
-  rules.unshift({ id: "R-" + Date.now().toString().slice(-4), section, keywords, instruction });
-  saveCustomRules(rules);
-  document.getElementById("rSec").value = "";
-  document.getElementById("rKw").value = "";
-  document.getElementById("rInst").value = "";
-  renderRules();
-}
-
-function removeRule(id) {
-  saveCustomRules(getCustomRules().filter(r => r.id !== id));
-  renderRules();
-}
-
-function renderRules() {
-  const rules = getCustomRules();
-  const box = document.getElementById("rulesArea");
-  box.innerHTML = rules.map(r => `
-    <div class="response-card" style="margin-top:10px; padding:14px;">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span class="tag">${r.section}</span>
-        <button class="btn-sm" style="background:var(--bad-bg); color:var(--bad-txt);" onclick="removeRule('${r.id}')">Remove</button>
-      </div>
-      <div style="margin-top:6px;">${r.instruction}</div>
-    </div>
-  `).join("");
-}
-
-function renderAdmin() {
-  const logs = getEntries();
-  const pending = logs.filter(l => l.gaps && l.gaps.length > 0 && !l.outcomeResolved);
-  document.getElementById("gapBadge").textContent = `${pending.length} Pending`;
-
-  const gapBox = document.getElementById("gapList");
-  if (!pending.length) {
-    gapBox.innerHTML = `<div class="response-card" style="background:var(--ok-bg); color:var(--ok-txt);">All clear — every logged lead and task has a recorded outcome.</div>`;
-  } else {
-    gapBox.innerHTML = pending.map(g => `
-      <div class="gap-item">
-        <div>
-          <strong>${g.name}</strong> <span style="font-size:12px; color:var(--muted);">(${g.time})</span>
-          <div style="font-size:13.5px; margin:4px 0;">"${g.rawText}"</div>
-          ${g.gaps.map(m => `<span class="tag tag-bad">${m}</span>`).join(" ")}
-        </div>
-        <button class="btn-sm" style="background:var(--ok-txt); color:#fff;" onclick="logOutcome('${g.id}')">+ Log Outcome</button>
-      </div>
-    `).join("");
-  }
-
-  const filter = document.getElementById("fFilter").value;
-  const search = document.getElementById("fSearch").value.trim().toLowerCase();
-  const sort = document.getElementById("fSort").value;
-
-  let rows = logs.filter(l => {
-    if (filter === "MISSING" && (!l.gaps || !l.gaps.length || l.outcomeResolved)) return false;
-    if (filter !== "ALL" && filter !== "MISSING" && !(l.categories || []).includes(filter)) return false;
-    if (search && !`${l.name} ${l.email} ${l.splitSummary} ${l.rawText}`.toLowerCase().includes(search)) return false;
-    return true;
-  });
-
-  if (sort === "OLD") rows = [...rows].reverse();
-  if (sort === "GAPS") rows = [...rows].sort((a, b) => ((b.gaps && !b.outcomeResolved ? 1 : 0) - (a.gaps && !a.outcomeResolved ? 1 : 0)));
-
-  const tbody = document.getElementById("adminRows");
-  if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">No entries yet.</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = rows.map(l => `
-    <tr>
-      <td><strong>${l.name}</strong><br><span style="font-size:12px; color:var(--muted);">${l.email}<br>${l.time}</span></td>
-      <td style="white-space:pre-wrap;">${l.splitSummary || l.rawText}</td>
-      <td>${(l.fileNames && l.fileNames.length) ? l.fileNames.map(f => `<span class="tag tag-ok">📎 ${f}</span>`).join("<br>") : "—"}</td>
-      <td>
-        ${l.outcomeResolved
-          ? `<span class="tag tag-ok">✓ Complete</span><div style="font-size:12px; margin-top:4px;">${l.followupNote || ""}</div>`
-          : `<span class="tag tag-bad">Follow-Up Needed</span><div style="margin-top:6px;"><button class="btn-sm" style="background:var(--ok-txt); color:#fff;" onclick="logOutcome('${l.id}')">+ Add Outcome</button></div>`
-        }
-      </td>
-    </tr>
-  `).join("");
-}
-
-(async () => {
-  await syncFromCloud();
-  renderRules();
-  renderAdmin();
-})();
-</script>
-</body>
-</html>
+    tbody.innerHTML = rows.map(r => {
+      const dt = r[0] ? new Date(r[0]).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "";
+      const summary = String(r[6] || r[8] || "").replace(/</g, "&lt;").replace(/\n/g, "<br>");
+      const files = String(r[7] || "—").replace(/(https?:\/\/[^\s)]+)/g, '<a href="$1" target="_blank" style="color:var(--crimson);font-weight:600;">Open ↗</a>');
+      return `
+        <tr>
+          <td><strong>${r[1] || ""}</strong><br><span style="font-size:12px;color:var(--ink-muted);">${dt}</span></td>
+          <td><strong>${r[2] || ""}</strong><br><span class="badge badge-crimson" style="margin-top:4px;">${r[3] || ""}</span></td>
+          <td style="line-height:1.55;">${summary}</td>
+          <td style="font-
