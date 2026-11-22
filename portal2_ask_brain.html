@@ -3,299 +3,298 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ask RitualEase Brain — ritualease.com</title>
-<link rel="stylesheet" href="styles.css?v=9">
+<title>Ask Intelligence — ritualease.com</title>
+<link rel="stylesheet" href="styles.css?v=20">
 <style>
-  main.chat-main {
-    max-width: 980px !important;
-    width: 100% !important;
-    margin: 0 auto !important;
-    padding: 16px 20px 24px 20px !important;
-    box-sizing: border-box;
-  }
-  .chat-shell {
-    width: 100%;
-    background: #ffffff;
-    border: 1px solid #ead9c6;
-    border-radius: 18px;
-    box-shadow: 0 12px 34px rgba(56, 39, 42, 0.06);
+  body {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 165px);
-    min-height: 580px;
+    height: 100vh;
     overflow: hidden;
   }
-  .chat-topbar {
-    padding: 16px 24px;
-    background: #FFF8EF;
-    border-bottom: 1px solid #ead9c6;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-  .chat-topbar h1 {
-    font-size: 1.3rem !important;
-    margin: 0 0 3px 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    border-bottom: none !important;
-    box-shadow: none !important;
-    text-decoration: none !important;
-    color: #38272A !important;
-  }
-  .chat-topbar h1::after,
-  .chat-topbar h1::before {
-    display: none !important;
-    content: none !important;
-  }
-  .chat-topbar span {
-    font-size: 0.82rem;
-    color: #7a6266;
-    display: block;
-  }
-  .chat-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .btn-chip {
-    width: auto !important;
-    background: #ffffff;
-    border: 1px solid #d9c3ad;
-    color: #38272A;
-    padding: 8px 14px;
-    border-radius: 10px;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-  .btn-chip:hover {
-    border-color: #BA2848;
-    color: #BA2848;
-    background: #fff8ef;
-  }
-  .chat-stream {
+
+  .workspace-shell {
     flex: 1;
-    overflow-y: auto;
-    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    background: #fffdfb;
-  }
-  .msg-row {
-    display: flex;
-    flex-direction: column;
-    max-width: 85%;
-  }
-  .msg-row.user {
-    align-self: flex-end;
-    align-items: flex-end;
-  }
-  .msg-row.assistant {
-    align-self: flex-start;
-    align-items: flex-start;
+    max-width: 920px;
     width: 100%;
-    max-width: 92%;
-  }
-  .msg-bubble {
-    padding: 15px 20px;
-    border-radius: 16px;
-    font-size: 0.96rem;
-    line-height: 1.65;
-    color: #38272A;
-    word-wrap: break-word;
-  }
-  .msg-row.user .msg-bubble {
-    background: #BA2848;
-    color: #ffffff;
-    border-bottom-right-radius: 4px;
-  }
-  .msg-row.assistant .msg-bubble {
-    background: #FFF8EF;
-    border: 1px solid #ead9c6;
-    border-bottom-left-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .msg-meta {
-    font-size: 0.75rem;
-    color: #8c7377;
-    margin-top: 5px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
-  .copy-link {
-    width: auto !important;
-    color: #BA2848;
-    cursor: pointer;
-    font-weight: 600;
-    background: none;
-    border: none;
-    padding: 0;
-    font-size: 0.75rem;
-  }
-  .msg-bubble table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 12px 0;
-    font-size: 0.88rem;
-    background: #ffffff;
-  }
-  .msg-bubble th, .msg-bubble td {
-    border: 1px solid #e2cbb3;
-    padding: 9px 12px;
-    text-align: left;
-    vertical-align: top;
-  }
-  .msg-bubble th {
-    background: #F8E8D4;
-    font-weight: 700;
-    color: #38272A;
-  }
-  .msg-bubble ul, .msg-bubble ol {
-    margin: 8px 0 8px 22px;
-    padding: 0;
-  }
-  .msg-bubble li {
-    margin-bottom: 5px;
-  }
-  .msg-bubble h2, .msg-bubble h3, .msg-bubble h4 {
-    margin: 12px 0 6px 0;
-    color: #BA2848;
-    border: none !important;
-  }
-  .starter-prompts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .starter-pill {
-    width: auto !important;
-    background: #ffffff;
-    border: 1px solid #e2cbb3;
-    border-radius: 20px;
-    padding: 7px 14px;
-    font-size: 0.82rem;
-    color: #38272A;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-  .starter-pill:hover {
-    border-color: #BA2848;
-    color: #BA2848;
+    margin: 0 auto;
+    padding: 0 24px;
+    overflow: hidden;
   }
 
-  /* Spacious, Full-Width Composer Area */
-  .chat-composer-wrap {
-    padding: 16px 22px;
-    background: #FFF8EF;
-    border-top: 1px solid #ead9c6;
+  .workspace-bar {
+    padding: 18px 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .workspace-title {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+
+  .workspace-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    display: inline-block;
+  }
+
+  .thread-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 4px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 28px;
   }
-  .chat-composer-row {
-    display: flex;
-    gap: 12px;
-    align-items: flex-end;
+
+  /* Editorial Turn Styling (Human SaaS, not Chatbot Bubbles) */
+  .turn-user {
+    align-self: flex-end;
+    max-width: 78%;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 13px 18px;
+    border-radius: 14px 14px 4px 14px;
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.55;
+  }
+
+  .turn-assistant {
     width: 100%;
+    padding-left: 18px;
+    border-left: 2.5px solid var(--crimson);
   }
-  .chat-composer-row textarea {
-    flex: 1 1 auto !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    min-height: 76px !important;
-    max-height: 200px !important;
-    resize: vertical !important;
-    padding: 13px 16px !important;
-    border: 1.5px solid #d4bba2 !important;
-    border-radius: 12px !important;
-    font-family: inherit !important;
-    font-size: 0.98rem !important;
-    line-height: 1.5 !important;
-    background: #ffffff !important;
-    color: #38272A !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
-  }
-  .chat-composer-row textarea:focus {
-    outline: none !important;
-    border-color: #BA2848 !important;
-    box-shadow: 0 0 0 3px rgba(186, 40, 72, 0.12) !important;
-  }
-  .chat-send-btn {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    min-width: 120px !important;
-    height: 48px !important;
-    padding: 0 22px !important;
-    border-radius: 12px !important;
-    font-size: 0.95rem !important;
-    font-weight: 700 !important;
-    margin: 0 !important;
-    cursor: pointer;
-  }
-  .composer-hint {
-    font-size: 0.75rem;
-    color: #8c7377;
+
+  .turn-author {
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--crimson);
+    margin-bottom: 8px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
   }
-  @media (max-width: 640px) {
-    main.chat-main { padding: 10px !important; }
-    .chat-shell { height: calc(100vh - 135px); }
-    .chat-composer-row { flex-direction: column; align-items: stretch; }
-    .chat-send-btn { width: 100% !important; }
+
+  .turn-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  .turn-body p { margin-bottom: 10px; }
+  .turn-body p:last-child { margin-bottom: 0; }
+  .turn-body h2, .turn-body h3, .turn-body h4 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 16px 0 8px;
+  }
+  .turn-body ul, .turn-body ol {
+    margin: 8px 0 12px 20px;
+  }
+  .turn-body li { margin-bottom: 5px; }
+
+  .turn-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13.5px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .turn-body th {
+    background: var(--bg-subtle);
+    color: var(--ink);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .turn-body td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .copy-btn {
+    background: none;
+    border: none;
+    color: var(--ink-muted);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .copy-btn:hover { color: var(--crimson); background: var(--bg-subtle); }
+
+  /* Empty State Quick Prompts */
+  .empty-state {
+    margin: auto 0;
+    padding: 24px 0;
+  }
+  .empty-heading {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .empty-sub {
+    color: var(--ink-secondary);
+    font-size: 14.5px;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  .prompt-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .prompt-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .prompt-card:hover {
+    border-color: var(--crimson);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  .prompt-card strong {
+    display: block;
+    font-size: 13.5px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .prompt-card span {
+    font-size: 12.5px;
+    color: var(--ink-secondary);
+    line-height: 1.4;
+    display: block;
+  }
+
+  /* Spacious Docked Composer */
+  .composer-dock {
+    padding: 14px 0 22px;
+    flex-shrink: 0;
+    background: var(--bg-canvas);
+  }
+  .composer-box {
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-strong);
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow-md);
+    transition: border-color 0.15s ease;
+  }
+  .composer-box:focus-within {
+    border-color: var(--crimson);
+  }
+  .composer-textarea {
+    width: 100%;
+    min-height: 74px;
+    max-height: 220px;
+    border: none;
+    background: transparent;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    display: block;
+  }
+  .composer-textarea:focus {
+    outline: none;
+  }
+  .composer-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--bg-subtle);
+  }
+  .composer-meta {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 720px) {
+    .workspace-shell { padding: 0 14px; }
+    .prompt-grid { grid-template-columns: 1fr; }
+    .turn-user { max-width: 90%; }
   }
 </style>
 </head>
 <body>
-<div class="accent-strip"></div>
-<header>
-  <div class="brand-mark">
-    <span class="re-seal">RE</span>
-    <span class="brand-title">ritualease.com</span>
-  </div>
-  <div class="brand-sub">RitualEase Intelligence • Continuous Operations Chat</div>
-</header>
-
-<main class="chat-main">
-  <div class="chat-shell">
-    <div class="chat-topbar">
-      <div>
-        <h1>Ask RitualEase</h1>
-        <span id="kbStatus">Connected to Drive Knowledge Base, Master Rules & Team Logs</span>
-      </div>
-      <div class="chat-actions">
-        <button type="button" class="btn-chip" id="syncBtn" onclick="syncDrive()">↻ Sync Drive Files</button>
-        <button type="button" class="btn-chip" onclick="resetChat()">+ New Chat</button>
-      </div>
-    </div>
-
-    <div class="chat-stream" id="chatStream"></div>
-
-    <div class="chat-composer-wrap">
-      <div class="chat-composer-row">
-        <textarea id="qInput" rows="3" placeholder="Type your question or follow-up here... (e.g. What are the exact offerings in Navgraha Pooja? Or: Turn that into a WhatsApp quote for a client in GNW 201301)"></textarea>
-        <button type="button" class="btn-primary chat-send-btn" id="askBtn" onclick="sendMessage()">Send ↵</button>
-      </div>
-      <div class="composer-hint">
-        <span>Press <strong>Enter</strong> to send • <strong>Shift + Enter</strong> for a new line</span>
-        <span>Reads all Drive Sheets, Excel, Word, PDF & Images</span>
-      </div>
+<div class="top-accent"></div>
+<nav class="app-navbar">
+  <div class="app-navbar-inner">
+    <a href="index.html" class="brand-lockup">
+      <span class="re-monogram">RE</span>
+      <span class="brand-wordmark">ritualease.com</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-item">Daily Update</a>
+      <a href="portal2_ask_brain.html" class="nav-item active">Ask Intelligence</a>
+      <a href="portal3_admin_brain.html" class="nav-item">Admin & Rules</a>
     </div>
   </div>
-</main>
+</nav>
 
-<footer>ritualease.com • Private Brain Query</footer>
+<div class="workspace-shell">
+  <div class="workspace-bar">
+    <h1 class="workspace-title">Ask RitualEase</h1>
+    <div class="workspace-controls">
+      <span class="badge badge-green" id="kbStatus"><span class="status-dot"></span> Connecting...</span>
+      <button type="button" class="btn-outline" id="syncBtn" onclick="syncDrive(true)">↻ Sync Drive</button>
+      <button type="button" class="btn-outline" onclick="resetChat()">New Thread</button>
+    </div>
+  </div>
 
-<script src="brain.js?v=9"></script>
+  <div class="thread-scroll" id="chatStream"></div>
+
+  <div class="composer-dock">
+    <div class="composer-box">
+      <textarea id="qInput" class="composer-textarea" placeholder="Ask across your Drive spreadsheets, Word docs, PDFs, packages, vendors, or daily team logs..."></textarea>
+      <div class="composer-footer">
+        <span class="composer-meta">Enter to send · Shift + Enter for new line</span>
+        <button type="button" class="btn-solid" id="askBtn" onclick="sendMessage()">Send Query</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="brain.js?v=20"></script>
 <script>
 let chatHistory = [];
 let isBusy = false;
@@ -303,14 +302,22 @@ let isBusy = false;
 function initChat() {
   const stream = document.getElementById("chatStream");
   stream.innerHTML = `
-    <div class="msg-row assistant">
-      <div class="msg-bubble">
-        <strong>Namaste!</strong> I’m <strong>RitualEase Intelligence</strong>. Ask me anything across all your uploaded Google Drive spreadsheets, Word docs, PDFs, images, packages, vendors, and daily team logs—and feel free to ask follow-up questions to refine tables, checklists, or WhatsApp client quotes.
-        <div class="starter-prompts">
-          <button type="button" class="starter-pill" onclick="useStarter('List all Puja packages and exact offerings from our Drive files in a table')">Puja Offerings Table</button>
-          <button type="button" class="starter-pill" onclick="useStarter('Draft a ready-to-send WhatsApp quote for Satyanarayan Katha including customer-owned utensils')">WhatsApp Puja Quote</button>
-          <button type="button" class="starter-pill" onclick="useStarter('Summarize recent team updates and flag any missing follow-ups')">Audit Team Logs</button>
-        </div>
+    <div class="empty-state">
+      <div class="empty-heading">What would you like to check across RitualEase?</div>
+      <p class="empty-sub">Search your uploaded Google Drive spreadsheets, documents, PDFs, and team logs—or ask follow-up questions to structure quotes, tables, and checklists.</p>
+      <div class="prompt-grid">
+        <button type="button" class="prompt-card" onclick="useStarter('Show all Puja packages and exact offerings from our Drive files in a structured table')">
+          <strong>Puja Offerings Matrix</strong>
+          <span>Extract exact samagri & offerings across packages</span>
+        </button>
+        <button type="button" class="prompt-card" onclick="useStarter('Draft a ready-to-send WhatsApp quote for Satyanarayan Katha including customer-owned utensils')">
+          <strong>Client WhatsApp Quote</strong>
+          <span>Generate quote with customer utensil reminders</span>
+        </button>
+        <button type="button" class="prompt-card" onclick="useStarter('Audit recent team logs and flag any pending follow-ups or missing return counts')">
+          <strong>Operations & Lead Audit</strong>
+          <span>Review team logs for missed follow-ups</span>
+        </button>
       </div>
     </div>
   `;
@@ -334,14 +341,17 @@ document.getElementById("qInput").addEventListener("keydown", function(e) {
   }
 });
 
-async function syncDrive() {
+async function syncDrive(force) {
   const scriptUrl = getScriptUrl();
-  if (!scriptUrl) return;
-  const syncBtn = document.getElementById("syncBtn");
   const statusEl = document.getElementById("kbStatus");
+  if (!scriptUrl) {
+    statusEl.className = "badge badge-amber";
+    statusEl.textContent = "Backend URL missing";
+    return;
+  }
+  const syncBtn = document.getElementById("syncBtn");
   syncBtn.disabled = true;
-  syncBtn.textContent = "Syncing Drive...";
-  statusEl.textContent = "Scanning & indexing all files in your Google Drive folder...";
+  if (force) statusEl.innerHTML = '<span class="status-dot"></span> Syncing Drive...';
 
   try {
     const res = await fetch(scriptUrl, {
@@ -349,12 +359,14 @@ async function syncDrive() {
       body: JSON.stringify({ action: "sync" })
     });
     const data = await res.json();
-    statusEl.textContent = data.message || "Drive files synced.";
+    const match = (data.message || "").match(/(\d+)/);
+    statusEl.className = "badge badge-green";
+    statusEl.innerHTML = match ? `<span class="status-dot"></span> ${match[1]} Drive Files Indexed` : `<span class="status-dot"></span> Drive Ready`;
   } catch (err) {
-    statusEl.textContent = "Sync failed: " + err.message;
+    statusEl.className = "badge badge-amber";
+    statusEl.textContent = "Check Apps Script Access";
   }
   syncBtn.disabled = false;
-  syncBtn.textContent = "↻ Sync Drive Files";
 }
 
 async function sendMessage() {
@@ -364,105 +376,90 @@ async function sendMessage() {
   if (!q) { input.focus(); return; }
 
   const scriptUrl = getScriptUrl();
-  if (!scriptUrl) {
-    appendBubble("assistant", "⚠️ **DEFAULT_SCRIPT_URL** is missing in `brain.js` on GitHub.");
-    return;
+  if (!scriptUrl) return;
+
+  if (chatHistory.length === 0) {
+    document.getElementById("chatStream").innerHTML = "";
   }
 
   input.value = "";
   chatHistory.push({ role: "user", content: q });
-  appendBubble("user", q);
+  appendUserTurn(q);
 
   isBusy = true;
   const btn = document.getElementById("askBtn");
   btn.disabled = true;
-  btn.textContent = "Thinking...";
+  btn.textContent = "Analyzing...";
 
-  const typingId = "typing_" + Date.now();
-  appendBubble("assistant", "Reading your Drive spreadsheets, docs, and conversation history...", typingId);
+  const typingId = "turn_" + Date.now();
+  appendAssistantTurn("Reading Drive spreadsheets, documents, and team logs...", typingId, false);
 
   try {
     const res = await fetch(scriptUrl, {
       method: "POST",
-      body: JSON.stringify({
-        action: "chat",
-        history: chatHistory
-      })
+      body: JSON.stringify({ action: "chat", history: chatHistory })
     });
     const raw = await res.text();
-    let data;
-    try {
-      data = JSON.parse(raw);
-    } catch (e) {
-      replaceBubble(typingId, "⚠️ Backend returned HTML instead of JSON. Ensure Apps Script is deployed with **Who has access: Anyone**.");
-      isBusy = false;
-      btn.disabled = false;
-      btn.textContent = "Send ↵";
-      return;
-    }
+    const data = JSON.parse(raw);
+    const reply = (data.answer && data.answer.trim()) ? data.answer.trim() : ("Unexpected response: " + raw);
 
-    const reply = (data.answer && data.answer.trim()) ? data.answer.trim() : ("⚠️ Unexpected response: " + raw);
     chatHistory.push({ role: "assistant", content: reply });
     if (data.fileCount !== undefined) {
-      document.getElementById("kbStatus").textContent = "Synced with " + data.fileCount + " Drive files • Multi-turn chat active";
+      document.getElementById("kbStatus").innerHTML = `<span class="status-dot"></span> ${data.fileCount} Drive Files Indexed`;
     }
-    replaceBubble(typingId, reply, true);
+    replaceAssistantTurn(typingId, reply);
   } catch (err) {
-    replaceBubble(typingId, "⚠️ Network error: " + err.message);
+    replaceAssistantTurn(typingId, "Connection error: " + err.message);
   }
 
   isBusy = false;
   btn.disabled = false;
-  btn.textContent = "Send ↵";
+  btn.textContent = "Send Query";
   input.focus();
 }
 
-function appendBubble(role, text, id) {
+function appendUserTurn(text) {
   const stream = document.getElementById("chatStream");
-  const row = document.createElement("div");
-  row.className = "msg-row " + role;
-  if (id) row.id = id;
-
-  const bubble = document.createElement("div");
-  bubble.className = "msg-bubble";
-  bubble.innerHTML = role === "user" ? escapeHtml(text).replace(/\n/g, "<br>") : renderMarkdown(text);
-  row.appendChild(bubble);
-
-  if (role === "assistant" && !id) {
-    row.appendChild(buildMetaBar(text));
-  }
-
-  stream.appendChild(row);
+  const div = document.createElement("div");
+  div.className = "turn-user";
+  div.innerHTML = escapeHtml(text).replace(/\n/g, "<br>");
+  stream.appendChild(div);
   stream.scrollTop = stream.scrollHeight;
 }
 
-function replaceBubble(id, text, showCopy) {
-  const row = document.getElementById(id);
-  if (!row) return;
-  row.removeAttribute("id");
-  const bubble = row.querySelector(".msg-bubble");
-  bubble.innerHTML = renderMarkdown(text);
-  if (showCopy) {
-    row.appendChild(buildMetaBar(text));
-  }
+function appendAssistantTurn(text, id, showCopy) {
   const stream = document.getElementById("chatStream");
+  const wrap = document.createElement("div");
+  wrap.className = "turn-assistant";
+  if (id) wrap.id = id;
+  wrap.innerHTML = `
+    <div class="turn-author"><span>RitualEase Intelligence</span></div>
+    <div class="turn-body">${renderMarkdown(text)}</div>
+  `;
+  stream.appendChild(wrap);
   stream.scrollTop = stream.scrollHeight;
 }
 
-function buildMetaBar(rawText) {
-  const meta = document.createElement("div");
-  meta.className = "msg-meta";
+function replaceAssistantTurn(id, rawText) {
+  const wrap = document.getElementById(id);
+  if (!wrap) return;
+  wrap.removeAttribute("id");
+
+  const authorBar = wrap.querySelector(".turn-author");
   const copyBtn = document.createElement("button");
   copyBtn.type = "button";
-  copyBtn.className = "copy-link";
-  copyBtn.textContent = "Copy response";
-  copyBtn.onclick = function() {
+  copyBtn.className = "copy-btn";
+  copyBtn.textContent = "Copy";
+  copyBtn.onclick = () => {
     navigator.clipboard.writeText(rawText);
     copyBtn.textContent = "Copied ✓";
-    setTimeout(() => copyBtn.textContent = "Copy response", 1800);
+    setTimeout(() => copyBtn.textContent = "Copy", 1800);
   };
-  meta.appendChild(copyBtn);
-  return meta;
+  authorBar.appendChild(copyBtn);
+
+  wrap.querySelector(".turn-body").innerHTML = renderMarkdown(rawText);
+  const stream = document.getElementById("chatStream");
+  stream.scrollTop = stream.scrollHeight;
 }
 
 function escapeHtml(str) {
@@ -482,7 +479,6 @@ function renderMarkdown(md) {
       if (inList) { html += "</ul>"; inList = false; }
       const cells = line.slice(1, -1).split("|").map(c => c.trim());
       if (cells.every(c => /^[-:]+$/.test(c))) continue;
-
       if (!inTable) {
         html += "<table><thead><tr>" + cells.map(c => "<th>" + inlineFormat(c) + "</th>").join("") + "</tr></thead><tbody>";
         inTable = true;
@@ -504,17 +500,11 @@ function renderMarkdown(md) {
       inList = false;
     }
 
-    if (line.startsWith("### ")) {
-      html += "<h4>" + inlineFormat(line.slice(4)) + "</h4>";
-    } else if (line.startsWith("## ")) {
-      html += "<h3>" + inlineFormat(line.slice(3)) + "</h3>";
-    } else if (line.startsWith("# ")) {
-      html += "<h2>" + inlineFormat(line.slice(2)) + "</h2>";
-    } else if (line === "---") {
-      html += "<hr style='border:none;border-top:1px solid #ead9c6;margin:10px 0;'>";
-    } else if (line.length > 0) {
-      html += "<p style='margin:6px 0;'>" + inlineFormat(line) + "</p>";
-    }
+    if (line.startsWith("### ")) html += "<h4>" + inlineFormat(line.slice(4)) + "</h4>";
+    else if (line.startsWith("## ")) html += "<h3>" + inlineFormat(line.slice(3)) + "</h3>";
+    else if (line.startsWith("# ")) html += "<h2>" + inlineFormat(line.slice(2)) + "</h2>";
+    else if (line === "---") html += "<hr style='border:none;border-top:1px solid var(--border);margin:14px 0;'>";
+    else if (line.length > 0) html += "<p>" + inlineFormat(line) + "</p>";
   }
 
   if (inTable) html += "</tbody></table>";
@@ -525,11 +515,12 @@ function renderMarkdown(md) {
 function inlineFormat(text) {
   return text
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/`([^`]+)`/g, "<code style='background:#f3e6d8;padding:1px 5px;border-radius:4px;'>$1</code>")
-    .replace(/(https?:\/\/[^\s<)]+)/g, '<a href="$1" target="_blank" style="color:#BA2848;font-weight:600;">Open File ↗</a>');
+    .replace(/`([^`]+)`/g, "<code style='background:var(--bg-subtle);padding:2px 6px;border-radius:4px;font-size:13px;'>$1</code>")
+    .replace(/(https?:\/\/[^\s<)]+)/g, '<a href="$1" target="_blank" style="color:var(--crimson);font-weight:600;text-decoration:none;border-bottom:1px solid var(--crimson);">Open Source ↗</a>');
 }
 
 initChat();
+window.addEventListener("DOMContentLoaded", () => syncDrive(false));
 </script>
 </body>
 </html>
