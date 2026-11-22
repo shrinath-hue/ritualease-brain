@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ask RitualEase — ritualease.com</title>
+<title>Ask RitualEase — RitualEase Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@
     flex-shrink: 0;
   }
 
-  /* 2. Authentic RitualEase Header (Exact Logo Mark Next to RitualEase Wordmark) */
+  /* 2. Official RitualEase Intelligence Header (100% Flat Bottom Edge) */
   .brand-header {
     background: var(--ivory);
     padding: 18px 24px 16px 24px;
@@ -62,8 +62,8 @@
   }
 
   .logo-mark-img {
-    width: 54px;
-    height: 54px;
+    width: 52px;
+    height: 52px;
     object-fit: contain;
     display: block;
   }
@@ -75,21 +75,37 @@
     text-align: left;
   }
 
+  .logo-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
   .logo-brand-name {
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 800;
-    font-size: 1.85rem;
+    font-size: 1.75rem;
     letter-spacing: -0.025em;
     color: var(--crimson);
     line-height: 1;
+  }
+
+  .logo-intelligence {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.55rem;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.01em;
   }
 
   .logo-tagline {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-style: italic;
     font-weight: 600;
-    font-size: 1.02rem;
-    color: var(--ink);
+    font-size: 0.98rem;
+    color: var(--ink-muted);
     margin-top: 3px;
   }
 
@@ -352,10 +368,11 @@
     color: var(--ink-muted);
   }
 
-  /* 4. Choreographed Story Footer:
-        LEFT END: Modern 2-Story Contemporary Home
-        MIDDLE: Paved Grey Dashed Road
-        RIGHT -> LEFT: Exact 3D E-Cargo Auto Drives Down Road -> Stops at Home -> Boy Exits, Door Opens & Takes Boxes In */
+  /* 4. ONE-TIME CHOREOGRAPHED DELIVERY FOOTER
+        - Auto starts at left end with boy riding inside & wheels visibly spinning
+        - Drives once along the paved road toward your exact boy-home_plain_HQ.png house
+        - Stops outside the house; boy steps out, opens back cargo doors, takes boxes & walks to the house
+        - Settles permanently at the end! */
   .story-footer {
     background: var(--sand);
     border-top: 2px solid #E5CEB5;
@@ -368,20 +385,21 @@
   .story-stage {
     position: relative;
     max-width: 1120px;
-    height: 186px;
+    height: 215px;
     margin: 0 auto;
     padding: 0 24px;
   }
 
-  /* Paved Grey Dashed Road Across Full Width */
+  /* Paved Grey Dashed Road */
   .paved-road {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
     height: 26px;
-    background: linear-gradient(180deg, #5F5A5C 0%, #484345 100%);
-    border-top: 2px solid #7D7679;
+    background: #524D4F;
+    border-top: 2px solid #756F72;
+    z-index: 1;
   }
 
   .paved-road::after {
@@ -398,60 +416,116 @@
       transparent 24px,
       transparent 44px
     );
-    animation: roadScrollRightToLeft 15s linear infinite;
   }
 
-  /* LEFT END: 3D-Shaded Modern Contemporary 2-Story Home (Matching Official RitualEase Villa Mascot) */
-  .home-actor {
+  /* === AUTO RIG (Moves ONCE from left end to house and stops cleanly) === */
+  .auto-rig {
     position: absolute;
-    bottom: 18px;
+    bottom: 12px;
     left: 24px;
-    width: 245px;
-    height: 162px;
-    z-index: 3;
+    width: 186px;
+    height: 150px;
+    z-index: 4;
+    animation: driveOnceToHouse 3.4s cubic-bezier(0.22, 0.85, 0.36, 1) forwards;
   }
 
-  .house-door-leaf {
-    transform-origin: left center;
-    animation: doorSwing 15s ease-in-out infinite;
+  /* Subtle suspension bounce while driving, stops at 3.4s */
+  .auto-body-bounce {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: suspensionIdle 0.28s ease-in-out 12 alternate;
   }
 
-  .door-warm-glow {
-    opacity: 0;
-    animation: glowPulse 15s ease-in-out infinite;
+  /* Exact 3D Auto PNG flipped horizontally so cabin faces right toward the house */
+  .auto-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transform: scaleX(-1);
+    filter: drop-shadow(0 7px 9px rgba(56, 39, 42, 0.24));
   }
 
-  /* COORDINATOR BOY: Exits Auto, Walks to House Porch & Carries Boxes Through Open Door */
-  .boy-actor {
+  /* Boy Riding Inside Auto Cabin (Visible during drive 0s-3.5s, disappears when he steps out) */
+  .rider-in-cabin {
     position: absolute;
-    bottom: 20px;
-    left: 310px;
+    top: 34px;
+    right: 52px;
+    width: 34px;
+    height: 46px;
+    z-index: 5;
+    animation: riderExitCabin 0.35s ease-out 3.5s forwards;
+  }
+
+  /* Back Cargo Door Swing Overlay (Left/Rear side of flipped auto, opens at 3.8s) */
+  .cargo-door-panel {
+    position: absolute;
+    top: 22px;
+    left: 4px;
+    width: 34px;
+    height: 62px;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F4ECE1 100%);
+    border: 2.5px solid #BA2848;
+    border-radius: 3px;
+    transform-origin: left center;
+    opacity: 0;
+    z-index: 6;
+    box-shadow: 4px 2px 8px rgba(56, 39, 42, 0.22);
+    animation: openCargoDoor 0.6s ease-out 3.8s forwards;
+  }
+
+  /* Rotating Wheel Overlays Aligned on Front & Rear Tires */
+  .wheel-spinner {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2.5px dashed rgba(255, 248, 239, 0.78);
+    box-shadow: inset 0 0 0 3px rgba(56, 39, 42, 0.65);
+    pointer-events: none;
+    z-index: 6;
+    animation: spinWheels 0.42s linear 8 forwards;
+  }
+
+  .wheel-rear {
+    bottom: 13px;
+    left: 24px;
+  }
+
+  .wheel-front {
+    bottom: 9px;
+    right: 17px;
+  }
+
+  /* === WALKING BOY CARRYING BOXES FROM AUTO BACK DOOR TO HOUSE (3.9s - 5.8s) === */
+  .walking-boy {
+    position: absolute;
+    bottom: 16px;
+    left: calc(100% - 475px);
     width: 68px;
     height: 98px;
     z-index: 5;
     opacity: 0;
-    animation: boyDeliveryToLeft 15s ease-in-out infinite;
+    animation: walkBoxesToHome 2.1s ease-in-out 3.9s forwards;
   }
 
-  /* RIGHT -> LEFT: Exact 3D E-Cargo Auto Mascot (100% Unmirrored so RitualEase + RE Logo Read Crisp!) */
-  .auto-actor {
+  /* === EXACT 3D HOUSE & BOY MASCOT AT RIGHT END (boy-home_plain_HQ.png) === */
+  .home-mascot-wrap {
     position: absolute;
-    bottom: 14px;
-    right: 24px;
-    width: 176px;
-    z-index: 4;
-    transform-origin: bottom center;
-    animation: autoDriveToHouse 15s cubic-bezier(0.35, 0.05, 0.25, 1) infinite;
+    bottom: 10px;
+    right: 20px;
+    width: 248px;
+    z-index: 3;
   }
 
-  .auto-actor img {
+  .home-mascot-img {
     width: 100%;
     height: auto;
     display: block;
-    filter: drop-shadow(0 7px 10px rgba(56, 39, 42, 0.24));
-    animation: engineIdle 0.42s ease-in-out infinite alternate;
+    filter: drop-shadow(0 6px 10px rgba(56, 39, 42, 0.16));
   }
 
+  /* Signature Strip Under Road */
   .footer-bar-bottom {
     background: #EFE0CC;
     border-top: 1px solid #DFC9AF;
@@ -474,79 +548,65 @@
     color: var(--crimson);
   }
 
-  /* === 15-SECOND CONTINUOUS CHOREOGRAPHY ===
-     0% - 35%: Auto drives smoothly from Right end down the road toward the House on the Left
-     36% - 42%: Auto brakes gently and parks right outside the house porch
-     43% - 52%: Boy steps out from auto carrying stacked celebration boxes; house front door swings open
-     53% - 76%: Boy walks boxes up to open front door and carries them inside
-     77% - 88%: Door closes warmly; boy walks back to auto
-     89% - 100%: Smooth reset for next celebration delivery
-  */
-  @keyframes autoDriveToHouse {
-    0%   { left: calc(100% - 205px); opacity: 0; transform: rotate(0deg); }
-    6%   { left: calc(100% - 205px); opacity: 1; transform: rotate(0deg); }
-    35%  { left: 285px; opacity: 1; transform: rotate(0deg); }
-    38%  { left: 280px; opacity: 1; transform: rotate(-1.5deg); }
-    41%  { left: 282px; opacity: 1; transform: rotate(0deg); }
-    88%  { left: 282px; opacity: 1; transform: rotate(0deg); }
-    95%  { left: 282px; opacity: 0; }
-    100% { left: calc(100% - 205px); opacity: 0; }
+  /* === ONE-TIME CHOREOGRAPHY KEYFRAMES === */
+  @keyframes driveOnceToHouse {
+    0%   { left: 20px; transform: rotate(0deg); }
+    92%  { left: calc(100% - 485px); transform: rotate(0deg); }
+    96%  { left: calc(100% - 480px); transform: rotate(1.4deg); }
+    100% { left: calc(100% - 482px); transform: rotate(0deg); }
   }
 
-  @keyframes engineIdle {
+  @keyframes suspensionIdle {
     from { transform: translateY(0px); }
-    to   { transform: translateY(-1.5px); }
+    to   { transform: translateY(-2px); }
   }
 
-  @keyframes boyDeliveryToLeft {
-    0%, 40%  { left: 320px; opacity: 0; transform: scale(0.9) translateY(3px); }
-    46%      { left: 300px; opacity: 1; transform: scale(1) translateY(0px); }
-    53%      { left: 262px; opacity: 1; transform: translateY(-2px); }
-    60%      { left: 224px; opacity: 1; transform: translateY(0px); }
-    67%      { left: 192px; opacity: 1; transform: translateY(-2px); }
-    77%      { left: 192px; opacity: 1; transform: translateY(0px); }
-    85%      { left: 295px; opacity: 1; transform: translateY(0px); }
-    90%, 100%{ left: 320px; opacity: 0; }
+  @keyframes spinWheels {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
   }
 
-  @keyframes doorSwing {
-    0%, 45%  { transform: scaleX(1); }
-    53%, 80% { transform: scaleX(0.20); }
-    87%, 100%{ transform: scaleX(1); }
+  @keyframes riderExitCabin {
+    0%   { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(-14px); }
   }
 
-  @keyframes glowPulse {
-    0%, 45%  { opacity: 0; }
-    53%, 80% { opacity: 1; }
-    87%, 100%{ opacity: 0; }
+  @keyframes openCargoDoor {
+    0%   { opacity: 0; transform: perspective(240px) rotateY(0deg); }
+    20%  { opacity: 1; transform: perspective(240px) rotateY(-15deg); }
+    100% { opacity: 1; transform: perspective(240px) rotateY(-68deg); }
   }
 
-  @keyframes roadScrollRightToLeft {
-    0%   { background-position-x: 0px; }
-    37%  { background-position-x: 240px; }
-    88%  { background-position-x: 240px; }
-    100% { background-position-x: 280px; }
+  @keyframes walkBoxesToHome {
+    0%   { opacity: 0; left: calc(100% - 492px); transform: translateY(0px); }
+    15%  { opacity: 1; left: calc(100% - 472px); transform: translateY(-3px); }
+    35%  { opacity: 1; left: calc(100% - 425px); transform: translateY(0px); }
+    55%  { opacity: 1; left: calc(100% - 375px); transform: translateY(-3px); }
+    78%  { opacity: 1; left: calc(100% - 315px); transform: translateY(0px); }
+    92%  { opacity: 1; left: calc(100% - 285px); transform: translateY(0px); }
+    100% { opacity: 0; left: calc(100% - 270px); transform: translateY(0px); }
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 760px) {
     .workspace-wrap { padding: 12px; }
     .chat-stream { padding: 16px; }
     .composer-row { flex-direction: column; align-items: stretch; }
     .btn-send { width: 100%; }
-    .story-stage { height: 150px; }
-    .home-actor { width: 175px; height: 118px; left: 10px; }
-    .auto-actor { width: 132px; }
-    @keyframes autoDriveToHouse {
-      0%   { left: calc(100% - 142px); opacity: 0; }
-      6%   { left: calc(100% - 142px); opacity: 1; }
-      37%, 88% { left: 195px; opacity: 1; }
-      95%, 100%{ left: calc(100% - 142px); opacity: 0; }
+    .story-stage { height: 170px; }
+    .auto-rig { width: 136px; height: 110px; }
+    .home-mascot-wrap { width: 185px; right: 10px; }
+    .wheel-spinner { width: 20px; height: 20px; }
+    .wheel-rear { bottom: 9px; left: 17px; }
+    .wheel-front { bottom: 6px; right: 12px; }
+    @keyframes driveOnceToHouse {
+      0%   { left: 10px; }
+      100% { left: calc(100% - 340px); }
     }
-    @keyframes boyDeliveryToLeft {
-      0%, 40%  { left: 215px; opacity: 0; }
-      47%      { left: 195px; opacity: 1; }
-      66%, 77% { left: 132px; opacity: 1; }
-      88%, 100%{ left: 215px; opacity: 0; }
+    @keyframes walkBoxesToHome {
+      0%   { opacity: 0; left: calc(100% - 345px); }
+      20%  { opacity: 1; left: calc(100% - 320px); }
+      85%  { opacity: 1; left: calc(100% - 215px); }
+      100% { opacity: 0; left: calc(100% - 200px); }
     }
   }
 </style>
@@ -556,12 +616,15 @@
   <!-- Top Crimson Accent Strip -->
   <div class="top-crimson-bar"></div>
 
-  <!-- Official RitualEase Header Using Exact Logo Mark Next to RitualEase Name -->
+  <!-- Official RitualEase Intelligence Header -->
   <header class="brand-header">
     <div class="logo-lockup">
-      <img src="ritualease-logo-mark-1024-transparent.png" alt="RitualEase" class="logo-mark-img">
+      <img src="ritualease-logo-mark-1024-transparent.png" alt="RitualEase Logo" class="logo-mark-img">
       <div class="logo-text-stack">
-        <span class="logo-brand-name">RitualEase</span>
+        <div class="logo-title-row">
+          <span class="logo-brand-name">RitualEase</span>
+          <span class="logo-intelligence">Intelligence</span>
+        </div>
         <span class="logo-tagline">Celebrations, delivered at home</span>
       </div>
     </div>
@@ -587,136 +650,75 @@
     </div>
   </main>
 
-  <!-- Choreographed Mascot Story Footer -->
+  <!-- One-Time Choreographed Delivery Footer -->
   <footer class="story-footer">
     <div class="story-stage">
-      <!-- Paved Dashed Road -->
+      <!-- Paved Dashed Road Connecting Auto & Home -->
       <div class="paved-road"></div>
 
-      <!-- 1. LEFT END: 3D-Shaded Contemporary 2-Story Villa Home (Exact RitualEase House Architecture) -->
-      <div class="home-actor" aria-hidden="true">
-        <svg width="245" height="162" viewBox="0 0 245 162" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="stuccoGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#FFFDF9"/>
-              <stop offset="100%" stop-color="#EAD8C3"/>
-            </linearGradient>
-            <linearGradient id="cedarGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#A87248"/>
-              <stop offset="50%" stop-color="#8F5D38"/>
-              <stop offset="100%" stop-color="#76492A"/>
-            </linearGradient>
-            <linearGradient id="warmWindow" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#FFF1C2"/>
-              <stop offset="100%" stop-color="#F5C76B"/>
-            </linearGradient>
-            <linearGradient id="doorWood" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#8A5232"/>
-              <stop offset="100%" stop-color="#683B21"/>
-            </linearGradient>
-          </defs>
+      <!-- 1. Real 3D E-Cargo Auto Mascot with Boy Riding Inside & Spinning Wheels -->
+      <div class="auto-rig">
+        <div class="auto-body-bounce">
+          <img src="auto_plain_HQ_with-RE-logo.png" alt="RitualEase E-Cargo Auto" class="auto-img">
 
-          <!-- Stone Patio Base -->
-          <rect x="8" y="152" width="228" height="8" rx="2" fill="#C9BEB4"/>
+          <!-- Boy Riding Inside Cabin -->
+          <svg class="rider-in-cabin" viewBox="0 0 40 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- White Cap & Crimson Visor -->
+            <path d="M10 15C10 9 14 6 20 6C26 6 30 9 30 15H10Z" fill="#FFFFFF" stroke="#38272A" stroke-width="1.3"/>
+            <path d="M20 14H35" stroke="#BA2848" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Head -->
+            <circle cx="20" cy="21" r="7" fill="#F2C39B"/>
+            <circle cx="23" cy="20" r="1.1" fill="#38272A"/>
+            <!-- Crimson Polo Torso -->
+            <path d="M11 30C11 28 15 27 20 27C25 27 29 28 29 30L31 48H9L11 30Z" fill="#BA2848"/>
+            <!-- Arm Reaching Steering Handlebar -->
+            <path d="M23 33L33 38" stroke="#F2C39B" stroke-width="3.5" stroke-linecap="round"/>
+          </svg>
 
-          <!-- Upper Story Left: Beige Stucco Balcony Volume -->
-          <rect x="18" y="22" width="122" height="58" rx="2" fill="url(#stuccoGrad)" stroke="#5E4942" stroke-width="1.4"/>
-          <rect x="12" y="16" width="132" height="7" rx="1.5" fill="#463735"/>
-          <!-- Balcony Sliding Glass Door -->
-          <rect x="34" y="30" width="88" height="44" rx="2" fill="url(#warmWindow)" stroke="#463735" stroke-width="1.5"/>
-          <line x1="78" y1="30" x2="78" y2="74" stroke="#463735" stroke-width="1.6"/>
-          <!-- Balcony Palm Planter -->
-          <rect x="22" y="61" width="10" height="13" rx="1.5" fill="#FFFFFF" stroke="#8C7B75" stroke-width="1"/>
-          <path d="M27 61C22 52 17 51 15 54M27 61C25 49 28 46 31 48M27 61C33 52 38 52 39 55" stroke="#3F6E3E" stroke-width="2.4" stroke-linecap="round"/>
-          <!-- Glass Balcony Balustrade -->
-          <rect x="16" y="58" width="122" height="18" fill="rgba(220, 238, 242, 0.45)" stroke="#5E4942" stroke-width="1.2"/>
-          <line x1="16" y1="58" x2="138" y2="58" stroke="#463735" stroke-width="2"/>
+          <!-- Swinging Back Cargo Door -->
+          <div class="cargo-door-panel" aria-hidden="true"></div>
 
-          <!-- Upper Story Right: Vertical Teakwood Slatted Tower -->
-          <rect x="140" y="10" width="88" height="70" rx="2" fill="url(#cedarGrad)" stroke="#463735" stroke-width="1.4"/>
-          <rect x="136" y="5" width="96" height="6" rx="1.5" fill="#38272A"/>
-          <!-- Vertical Wood Slat Lines -->
-          <line x1="150" y1="11" x2="150" y2="80" stroke="#5E391F" stroke-width="1"/>
-          <line x1="218" y1="11" x2="218" y2="80" stroke="#5E391F" stroke-width="1"/>
-          <!-- Large Picture Window -->
-          <rect x="156" y="20" width="56" height="46" rx="2" fill="url(#warmWindow)" stroke="#38272A" stroke-width="2.2"/>
-          <line x1="184" y1="20" x2="184" y2="66" stroke="#38272A" stroke-width="1.6"/>
-
-          <!-- Ground Story Main Structure -->
-          <rect x="14" y="80" width="214" height="72" rx="2" fill="url(#stuccoGrad)" stroke="#5E4942" stroke-width="1.5"/>
-          <!-- Deep Porch Ceiling Soffit with Warm Spotlights -->
-          <rect x="10" y="77" width="222" height="7" rx="1.5" fill="#5A3A28"/>
-          <circle cx="52" cy="85" r="2.2" fill="#FFF3C4"/>
-          <circle cx="118" cy="85" r="2.2" fill="#FFF3C4"/>
-          <circle cx="184" cy="85" r="2.2" fill="#FFF3C4"/>
-
-          <!-- Left Ground Glass Patio Doors -->
-          <rect x="26" y="92" width="74" height="60" rx="2" fill="url(#warmWindow)" stroke="#463735" stroke-width="1.6"/>
-          <line x1="63" y1="92" x2="63" y2="152" stroke="#463735" stroke-width="1.6"/>
-
-          <!-- Right Ground Main Entrance Porch + Animated Swinging Teak Door -->
-          <rect x="142" y="92" width="44" height="60" rx="2" fill="#FFF3D1" stroke="#38272A" stroke-width="1.8"/>
-          <rect class="door-warm-glow" x="143" y="93" width="42" height="58" fill="#EBAA32" opacity="0.5"/>
-          <!-- Animated Teak Front Door Leaf -->
-          <g transform="translate(143, 93)">
-            <g class="house-door-leaf">
-              <rect x="0" y="0" width="42" height="58" fill="url(#doorWood)" stroke="#38272A" stroke-width="1.4"/>
-              <line x1="21" y1="2" x2="21" y2="56" stroke="#4E2B16" stroke-width="1.2"/>
-              <line x1="35" y1="22" x2="35" y2="36" stroke="#E6D5C3" stroke-width="2.2" stroke-linecap="round"/>
-            </g>
-          </g>
-          <!-- Warm Porch Sconce Lights Flanking Door -->
-          <rect x="133" y="106" width="4" height="10" rx="1" fill="#EBAA32"/>
-          <rect x="191" y="106" width="4" height="10" rx="1" fill="#EBAA32"/>
-
-          <!-- Two White Cylindrical Planters with Lush Green Shrubs Flanking Entrance -->
-          <rect x="122" y="136" width="14" height="16" rx="2" fill="#FFFFFF" stroke="#9E8E87" stroke-width="1.2"/>
-          <circle cx="129" cy="130" r="9.5" fill="#467542"/>
-          <circle cx="126" cy="127" r="5" fill="#5D9158"/>
-
-          <rect x="192" y="136" width="14" height="16" rx="2" fill="#FFFFFF" stroke="#9E8E87" stroke-width="1.2"/>
-          <circle cx="199" cy="130" r="9.5" fill="#467542"/>
-          <circle cx="202" cy="127" r="5" fill="#5D9158"/>
-        </svg>
+          <!-- Rotating Wheel Overlays -->
+          <div class="wheel-spinner wheel-rear" aria-hidden="true"></div>
+          <div class="wheel-spinner wheel-front" aria-hidden="true"></div>
+        </div>
       </div>
 
-      <!-- 2. COORDINATOR BOY: Steps Out of Auto Carrying Celebration Boxes Toward House -->
-      <div class="boy-actor" aria-hidden="true">
+      <!-- 2. Boy Carrying Boxes From Back of Auto to the House -->
+      <div class="walking-boy" aria-hidden="true">
         <svg width="68" height="98" viewBox="0 0 68 98" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="36" cy="94" rx="17" ry="3.8" fill="rgba(56,39,42,0.24)"/>
-          <!-- White Cap with Crimson Visor Facing Left Toward House -->
-          <path d="M26 21C26 14 31 10 38 10C45 10 50 14 50 21H26Z" fill="#FFFFFF" stroke="#38272A" stroke-width="1.5"/>
-          <path d="M20 20H38" stroke="#BA2848" stroke-width="3" stroke-linecap="round"/>
-          <!-- Head & Friendly Smile -->
-          <circle cx="38" cy="28" r="8.5" fill="#F0BE96"/>
-          <circle cx="34.5" cy="27" r="1.2" fill="#38272A"/>
-          <path d="M32.5 31C34 32.3 36.5 32 37.8 30.8" stroke="#38272A" stroke-width="1.3" stroke-linecap="round"/>
-          <!-- Crimson RitualEase Polo Shirt -->
-          <path d="M27 38C27 36 31 35 38 35C45 35 49 36 49 38L51 63H25L27 38Z" fill="#BA2848"/>
-          <!-- Dark Trousers & White Sneakers -->
-          <rect x="28" y="63" width="8.5" height="24" rx="2.5" fill="#2F2628"/>
-          <rect x="39.5" y="63" width="8.5" height="24" rx="2.5" fill="#2F2628"/>
-          <rect x="26" y="85" width="11" height="5" rx="2.5" fill="#FFFFFF" stroke="#38272A" stroke-width="1"/>
-          <rect x="38" y="85" width="11" height="5" rx="2.5" fill="#FFFFFF" stroke="#38272A" stroke-width="1"/>
-          <!-- Stacked Celebration Boxes Held Out in Front (Left) -->
-          <rect x="10" y="45" width="26" height="17" rx="2.5" fill="#D4A36A" stroke="#38272A" stroke-width="1.3"/>
-          <rect x="18" y="45" width="10" height="4" fill="#BA2848"/>
-          <rect x="12" y="32" width="22" height="13" rx="2" fill="#FFF8EF" stroke="#38272A" stroke-width="1.3"/>
-          <line x1="23" y1="32" x2="23" y2="45" stroke="#EBAA32" stroke-width="2.5"/>
-          <!-- Arm Supporting Boxes -->
-          <path d="M42 42L33 51" stroke="#F0BE96" stroke-width="4.2" stroke-linecap="round"/>
+          <ellipse cx="32" cy="94" rx="17" ry="3.5" fill="rgba(56,39,42,0.22)"/>
+          <!-- White Cap -->
+          <path d="M17 21C17 14 22 10 29 10C36 10 41 14 41 21H17Z" fill="#FFFFFF" stroke="#38272A" stroke-width="1.5"/>
+          <path d="M29 20H47" stroke="#BA2848" stroke-width="3" stroke-linecap="round"/>
+          <!-- Head -->
+          <circle cx="29" cy="28" r="8.5" fill="#F2C39B"/>
+          <circle cx="32" cy="27" r="1.2" fill="#38272A"/>
+          <path d="M29 31C31 32.5 33.5 32.2 34.5 30.8" stroke="#38272A" stroke-width="1.3" stroke-linecap="round"/>
+          <!-- Crimson RitualEase Polo -->
+          <path d="M18 38C18 36 22 35 29 35C36 35 40 36 40 38L42 63H16L18 38Z" fill="#BA2848"/>
+          <!-- Trousers & Sneakers -->
+          <rect x="19" y="63" width="8.5" height="24" rx="2.5" fill="#38272A"/>
+          <rect x="30.5" y="63" width="8.5" height="24" rx="2.5" fill="#38272A"/>
+          <rect x="18" y="85" width="11" height="5" rx="2.5" fill="#FFFFFF"/>
+          <rect x="30" y="85" width="11" height="5" rx="2.5" fill="#FFFFFF"/>
+          <!-- Kraft Celebration Box Matching boy-home_plain_HQ.png -->
+          <rect x="29" y="42" width="28" height="19" rx="2.5" fill="#DFB88C" stroke="#8C6239" stroke-width="1.3"/>
+          <text x="43" y="54" text-anchor="middle" fill="#BA2848" font-family="Nunito Sans, sans-serif" font-weight="800" font-size="6.2">RitualEase</text>
+          <!-- Arm Holding Box -->
+          <path d="M23 42L32 51" stroke="#F2C39B" stroke-width="4" stroke-linecap="round"/>
         </svg>
       </div>
 
-      <!-- 3. RIGHT -> LEFT: Exact 3D E-Cargo Auto Mascot (100% Unmirrored) -->
-      <div class="auto-actor">
-        <img src="auto_plain_HQ_with-RE-logo.png" alt="RitualEase E-Cargo Auto">
+      <!-- 3. Exact 3D Modern House & Boy Mascot at Right End -->
+      <div class="home-mascot-wrap">
+        <img src="boy-home_plain_HQ.png" alt="RitualEase Coordinator and Modern Home" class="home-mascot-img">
       </div>
     </div>
 
     <div class="footer-bar-bottom">
       <div class="footer-bar-inner">
-        <span><strong>RitualEase</strong> • ritualease.com</span>
+        <span><strong>RitualEase Intelligence</strong> • ritualease.com</span>
         <span>Celebrations, delivered at home</span>
       </div>
     </div>
