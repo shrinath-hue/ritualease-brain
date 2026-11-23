@@ -145,7 +145,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   .workspace-title {
@@ -158,18 +159,63 @@
     line-height: 1.1;
   }
 
+  .workspace-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Opt-In Device Folder Access Control (Strictly OFF by default) */
+  .btn-device {
+    background: #FFFFFF;
+    border: 1px solid #D9C3AD;
+    color: var(--ink-muted);
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 7px 12px;
+    border-radius: 9px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+
+  .btn-device:hover {
+    border-color: var(--crimson);
+    color: var(--crimson);
+  }
+
+  .btn-device.active {
+    background: #FFF6E0;
+    border-color: var(--gold);
+    color: var(--ink);
+  }
+
+  .device-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #B9A798;
+  }
+
+  .btn-device.active .device-dot {
+    background: #2E7D32;
+  }
+
   .btn-new-chat {
     background: #FFFFFF;
     border: 1px solid #D9C3AD;
     color: var(--ink);
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 700;
-    font-size: 0.82rem;
-    padding: 7px 14px;
+    font-size: 0.8rem;
+    padding: 7px 13px;
     border-radius: 9px;
     cursor: pointer;
     white-space: nowrap;
-    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   }
 
   .btn-new-chat:hover,
@@ -228,6 +274,85 @@
     overflow-x: auto;
   }
 
+  /* Artifact Cards (Excel, Docs, Generated Brand Images) */
+  .artifact-card {
+    margin-top: 12px;
+    background: #FFFFFF;
+    border: 1.5px solid #DFC6AC;
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .artifact-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .artifact-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: var(--sand);
+    color: var(--crimson);
+  }
+
+  .artifact-title {
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--ink);
+  }
+
+  .artifact-preview-img {
+    max-width: 100%;
+    max-height: 360px;
+    border-radius: 10px;
+    border: 1px solid var(--hairline);
+    object-fit: contain;
+    align-self: flex-start;
+  }
+
+  .artifact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .btn-artifact-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--crimson);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 8px 14px;
+    border-radius: 8px;
+  }
+
+  .btn-artifact-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--ivory);
+    color: var(--ink);
+    border: 1px solid #D5BCA3;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 8px 14px;
+    border-radius: 8px;
+  }
+
   .entry-actions {
     margin-top: 6px;
     display: flex;
@@ -250,7 +375,6 @@
     text-decoration: underline;
   }
 
-  /* Responsive Tables inside Responses */
   .table-scroll {
     width: 100%;
     overflow-x: auto;
@@ -316,7 +440,6 @@
     border-radius: 20px;
     cursor: pointer;
     text-align: left;
-    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   }
 
   .starter-pill:hover,
@@ -326,7 +449,6 @@
     background: #FFFDF9;
   }
 
-  /* Composer Box (16px font prevents iOS Safari zoom on tap) */
   .composer-box {
     padding: 14px 22px 16px 22px;
     background: var(--ivory);
@@ -389,7 +511,7 @@
     color: var(--ink-muted);
   }
 
-  /* 4. Static Brand Kit v4 Sand Footer (#F8E8D4) — Responsive Desktop + Phone Scene */
+  /* 4. Static Brand Kit v4 Sand Footer (#F8E8D4) — Auto Facing Opposite to Home */
   .brand-footer {
     background: var(--sand);
     border-top: 2px solid #E5CEB5;
@@ -436,7 +558,6 @@
     );
   }
 
-  /* Left End: Exact 3D E-Cargo Auto Mascot Facing Opposite to Home */
   .auto-static {
     position: relative;
     z-index: 3;
@@ -451,7 +572,6 @@
     filter: drop-shadow(0 6px 8px rgba(56, 39, 42, 0.22));
   }
 
-  /* Right End: Exact 3D Boy & Modern House Mascot */
   .home-static {
     position: relative;
     z-index: 3;
@@ -488,106 +608,39 @@
     color: var(--crimson);
   }
 
-  /* === TABLET & MOBILE PHONE OPTIMIZATIONS === */
   @media (max-width: 680px) {
-    .brand-header {
-      padding: 12px 14px 11px 14px;
-    }
-    .logo-mark-img {
-      width: 38px;
-      height: 38px;
-    }
-    .logo-brand-name {
-      font-size: 1.32rem;
-    }
-    .logo-intelligence {
-      font-size: 1.2rem;
-    }
-    .logo-tagline {
-      font-size: 0.84rem;
-    }
-    .workspace-wrap {
-      padding: 10px 10px 14px 10px;
-    }
-    .workspace-card {
-      border-radius: 14px;
-      min-height: 420px;
-    }
-    .workspace-bar {
-      padding: 11px 14px;
-    }
-    .workspace-title {
-      font-size: 1.28rem;
-    }
-    .chat-stream {
-      padding: 14px 14px;
-      gap: 14px;
-    }
-    .entry.user {
-      max-width: 90%;
-    }
-    .entry.assistant .entry-body {
-      padding: 13px 15px;
-      font-size: 0.94rem;
-    }
-    .starter-row {
-      flex-direction: column;
-    }
-    .starter-pill {
-      width: 100%;
-      border-radius: 10px;
-    }
-    .composer-box {
-      padding: 12px 14px 14px 14px;
-    }
-    .composer-row {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 9px;
-    }
-    .composer-row textarea {
-      min-height: 64px;
-    }
-    .btn-send {
-      width: 100%;
-      height: 46px;
-    }
-    .composer-note {
-      display: none;
-    }
-    .mascot-scene {
-      height: 124px;
-      padding: 0 12px;
-    }
-    .paved-road {
-      height: 16px;
-    }
-    .paved-road::after {
-      top: 6px;
-      height: 2px;
-    }
-    .auto-static {
-      width: 112px;
-      margin-bottom: 6px;
-    }
-    .home-static {
-      width: 146px;
-      margin-bottom: 5px;
-    }
-    .footer-bar-inner {
-      justify-content: center;
-      text-align: center;
-      font-size: 0.72rem;
-    }
+    .brand-header { padding: 12px 14px 11px 14px; }
+    .logo-mark-img { width: 38px; height: 38px; }
+    .logo-brand-name { font-size: 1.32rem; }
+    .logo-intelligence { font-size: 1.2rem; }
+    .logo-tagline { font-size: 0.84rem; }
+    .workspace-wrap { padding: 10px 10px 14px 10px; }
+    .workspace-card { border-radius: 14px; min-height: 420px; }
+    .workspace-bar { padding: 11px 14px; }
+    .workspace-title { font-size: 1.25rem; }
+    .chat-stream { padding: 14px; gap: 14px; }
+    .entry.user { max-width: 90%; }
+    .entry.assistant .entry-body { padding: 13px 15px; font-size: 0.94rem; }
+    .starter-row { flex-direction: column; }
+    .starter-pill { width: 100%; border-radius: 10px; }
+    .composer-box { padding: 12px 14px 14px 14px; }
+    .composer-row { flex-direction: column; align-items: stretch; gap: 9px; }
+    .composer-row textarea { min-height: 64px; }
+    .btn-send { width: 100%; height: 46px; }
+    .composer-note { display: none; }
+    .mascot-scene { height: 124px; padding: 0 12px; }
+    .paved-road { height: 16px; }
+    .paved-road::after { top: 6px; height: 2px; }
+    .auto-static { width: 112px; margin-bottom: 6px; }
+    .home-static { width: 146px; margin-bottom: 5px; }
+    .footer-bar-inner { justify-content: center; text-align: center; font-size: 0.72rem; }
   }
 </style>
 </head>
 <body>
 
-  <!-- Top Crimson Accent Strip -->
   <div class="top-crimson-bar"></div>
 
-  <!-- Official RitualEase Intelligence Header -->
   <header class="brand-header">
     <div class="logo-lockup">
       <img src="ritualease-logo-mark-1024-transparent.png" alt="RitualEase Logo" class="logo-mark-img">
@@ -601,27 +654,33 @@
     </div>
   </header>
 
-  <!-- Continuous Conversation Workspace -->
   <main class="workspace-wrap">
     <div class="workspace-card">
       <div class="workspace-bar">
         <div class="workspace-title">Ask RitualEase</div>
-        <button type="button" class="btn-new-chat" onclick="resetChat()">+ New Chat</button>
+        <div class="workspace-controls">
+          <!-- Opt-in Device Folder Access (Disabled by default until clicked) -->
+          <button type="button" class="btn-device" id="deviceBtn" onclick="toggleDeviceAccess()" title="Grant temporary read access to a local device folder">
+            <span class="device-dot"></span>
+            <span id="deviceBtnLabel">Device Folder: Off</span>
+          </button>
+          <input type="file" id="mobileFolderInput" webkitdirectory directory multiple style="display:none" onchange="handleFallbackFiles(this.files)">
+          <button type="button" class="btn-new-chat" onclick="resetChat()">+ New Chat</button>
+        </div>
       </div>
 
       <div class="chat-stream" id="chatStream"></div>
 
       <div class="composer-box">
         <div class="composer-row">
-          <textarea id="qInput" rows="3" placeholder="Ask anything across your packages, samagri lists, SOPs, vendors, or daily team logs..."></textarea>
+          <textarea id="qInput" rows="3" placeholder="Ask anything, or say: 'Create an Excel of Puja margins', 'Draft a vendor SOP Doc', or 'Generate an image of a marigold home puja'..."></textarea>
           <button type="button" class="btn-send" id="askBtn" onclick="sendMessage()">Send ↵</button>
         </div>
-        <div class="composer-note">Press <strong>Enter</strong> to send • <strong>Shift + Enter</strong> for a new line</div>
+        <div class="composer-note">Creates <strong>Excel (.xlsx)</strong>, <strong>Docs (.docx)</strong> &amp; <strong>Images</strong> on command • Press <strong>Enter</strong> to send</div>
       </div>
     </div>
   </main>
 
-  <!-- Clean Static Footer: Auto Facing Opposite to Home, Paved Road in Between, Boy & House on Right -->
   <footer class="brand-footer">
     <div class="mascot-scene">
       <div class="paved-road"></div>
@@ -641,10 +700,14 @@
     </div>
   </footer>
 
-<script src="brain.js?v=18"></script>
+<script src="brain.js?v=19"></script>
 <script>
 let chatHistory = [];
 let isBusy = false;
+
+// Opt-in local device file index (Strictly empty & inactive unless user explicitly enables)
+let deviceEnabled = false;
+let localDeviceFiles = []; // [{ path, name, text }]
 
 function resolveScriptUrl() {
   if (typeof getScriptUrl === "function") {
@@ -657,16 +720,115 @@ function resolveScriptUrl() {
   return (localStorage.getItem("ritualease_script_url") || "").trim();
 }
 
+async function toggleDeviceAccess() {
+  const btn = document.getElementById("deviceBtn");
+  const label = document.getElementById("deviceBtnLabel");
+
+  // Turn OFF and immediately purge memory if currently enabled
+  if (deviceEnabled) {
+    deviceEnabled = false;
+    localDeviceFiles = [];
+    btn.classList.remove("active");
+    label.textContent = "Device Folder: Off";
+    return;
+  }
+
+  // Turn ON only via explicit user permission gesture
+  if (window.showDirectoryPicker) {
+    try {
+      const dirHandle = await window.showDirectoryPicker({ mode: "read" });
+      label.textContent = "Indexing...";
+      localDeviceFiles = [];
+      await scanDirectoryHandle(dirHandle, dirHandle.name, 0);
+      deviceEnabled = true;
+      btn.classList.add("active");
+      label.textContent = "Device (" + localDeviceFiles.length + " files) • Disconnect";
+    } catch (err) {
+      deviceEnabled = false;
+      localDeviceFiles = [];
+      label.textContent = "Device Folder: Off";
+    }
+  } else {
+    // Fallback for Safari / Mobile browsers
+    document.getElementById("mobileFolderInput").click();
+  }
+}
+
+async function scanDirectoryHandle(dirHandle, prefix, depth) {
+  if (depth > 3 || localDeviceFiles.length >= 120) return;
+  for await (const entry of dirHandle.values()) {
+    if (localDeviceFiles.length >= 120) break;
+    if (entry.kind === "file") {
+      try {
+        const file = await entry.getFile();
+        await ingestLocalFile(file, prefix + "/" + entry.name);
+      } catch (e) {}
+    } else if (entry.kind === "directory" && !entry.name.startsWith(".")) {
+      await scanDirectoryHandle(entry, prefix + "/" + entry.name, depth + 1);
+    }
+  }
+}
+
+async function handleFallbackFiles(fileList) {
+  if (!fileList || fileList.length === 0) return;
+  const btn = document.getElementById("deviceBtn");
+  const label = document.getElementById("deviceBtnLabel");
+  label.textContent = "Indexing...";
+  localDeviceFiles = [];
+  const limit = Math.min(fileList.length, 120);
+  for (let i = 0; i < limit; i++) {
+    const f = fileList[i];
+    await ingestLocalFile(f, f.webkitRelativePath || f.name);
+  }
+  deviceEnabled = true;
+  btn.classList.add("active");
+  label.textContent = "Device (" + localDeviceFiles.length + " files) • Disconnect";
+}
+
+async function ingestLocalFile(file, relPath) {
+  const lower = file.name.toLowerCase();
+  const isTextReadable = /\.(txt|md|csv|json|html|xml|log|js|py|tsv)$/i.test(lower);
+  let text = "";
+  if (isTextReadable && file.size < 400000) {
+    try { text = (await file.text()).slice(0, 6000); } catch (e) {}
+  } else {
+    text = "[Binary/Office File: " + file.name + " (" + Math.round(file.size / 1024) + " KB)]";
+  }
+  localDeviceFiles.push({ path: relPath, name: file.name, text: text });
+}
+
+function buildRelevantDeviceContext(query) {
+  if (!deviceEnabled || localDeviceFiles.length === 0) return "";
+  const terms = (query || "").toLowerCase().split(/\W+/).filter(w => w.length > 2);
+  const ranked = localDeviceFiles.map(f => {
+    const hay = (f.path + " " + f.text).toLowerCase();
+    let score = 0;
+    terms.forEach(t => {
+      if (f.name.toLowerCase().includes(t)) score += 5;
+      if (hay.includes(t)) score += 1;
+    });
+    return { file: f, score };
+  }).sort((a, b) => b.score - a.score);
+
+  const dirSummary = "DEVICE DIRECTORY (" + localDeviceFiles.length + " files): " +
+    localDeviceFiles.map(f => f.path).join(", ");
+  const topFiles = ranked.slice(0, 4).map(r =>
+    "--- LOCAL FILE: " + r.file.path + " ---\n" + r.file.text
+  ).join("\n\n");
+
+  return dirSummary + "\n\n" + topFiles;
+}
+
 function initChat() {
   const stream = document.getElementById("chatStream");
   stream.innerHTML = `
     <div class="entry assistant">
       <div class="entry-body">
-        <strong>Namaste!</strong> How can I help you today?
+        <strong>Namaste!</strong> How can I help you today? Ask any question, or instruct me to build an <strong>Excel (.xlsx)</strong>, <strong>Document (.docx)</strong>, or <strong>Brand Image</strong>.
         <div class="starter-row">
-          <button type="button" class="starter-pill" onclick="useStarter('List all Puja packages and exact offerings in a table')">Puja Offerings Table</button>
-          <button type="button" class="starter-pill" onclick="useStarter('Draft a ready-to-send WhatsApp quote for Satyanarayan Katha including customer-owned utensils')">WhatsApp Puja Quote</button>
-          <button type="button" class="starter-pill" onclick="useStarter('Summarize recent team updates and flag any missing follow-ups')">Audit Team Logs</button>
+          <button type="button" class="starter-pill" onclick="useStarter('Create an Excel sheet comparing all Puja packages, inclusions, and customer utensils')">Create Puja Excel (.xlsx)</button>
+          <button type="button" class="starter-pill" onclick="useStarter('Create a Word document SOP for on-day home birthday coordination')">Create Ops Doc (.docx)</button>
+          <button type="button" class="starter-pill" onclick="useStarter('Generate an image of a warm marigold and ivory Satyanarayan puja setup at home')">Generate Puja Visual</button>
         </div>
       </div>
     </div>
@@ -681,7 +843,7 @@ function useStarter(text) {
 function resetChat() {
   chatHistory = [];
   initChat();
-  document.getElementById("qInput").focus();
+  if (window.innerWidth > 680) document.getElementById("qInput").focus();
 }
 
 document.getElementById("qInput").addEventListener("keydown", function(e) {
@@ -710,17 +872,18 @@ async function sendMessage() {
   isBusy = true;
   const btn = document.getElementById("askBtn");
   btn.disabled = true;
-  btn.textContent = "Thinking...";
+  btn.textContent = "Working...";
 
   const typingId = "typing_" + Date.now();
-  appendEntry("assistant", "Thinking...", typingId);
+  appendEntry("assistant", "Working on it...", typingId);
 
   try {
     const res = await fetch(scriptUrl, {
       method: "POST",
       body: JSON.stringify({
         action: "chat",
-        history: chatHistory
+        history: chatHistory,
+        deviceContext: buildRelevantDeviceContext(q)
       })
     });
     const raw = await res.text();
@@ -737,7 +900,7 @@ async function sendMessage() {
 
     const reply = (data.answer && data.answer.trim()) ? data.answer.trim() : ("⚠️ Unexpected response: " + raw);
     chatHistory.push({ role: "assistant", content: reply });
-    replaceEntry(typingId, reply, true);
+    replaceEntry(typingId, reply, true, data.artifact || null);
   } catch (err) {
     replaceEntry(typingId, "⚠️ Network error: " + err.message);
   }
@@ -746,6 +909,55 @@ async function sendMessage() {
   btn.disabled = false;
   btn.textContent = "Send ↵";
   if (window.innerWidth > 680) input.focus();
+}
+
+function renderArtifactHtml(art) {
+  if (!art) return "";
+  if (art.type === "excel") {
+    return `
+      <div class="artifact-card">
+        <div class="artifact-header">
+          <span class="artifact-title">📊 ${escapeHtml(art.title || "Excel Workbook")}</span>
+          <span class="artifact-badge">Excel (.xlsx)</span>
+        </div>
+        <div class="artifact-links">
+          <a href="${art.downloadUrl}" target="_blank" class="btn-artifact-primary">⬇ Download Excel (.xlsx)</a>
+          <a href="${art.viewUrl}" target="_blank" class="btn-artifact-secondary">Open in Google Sheets ↗</a>
+        </div>
+      </div>
+    `;
+  }
+  if (art.type === "doc") {
+    return `
+      <div class="artifact-card">
+        <div class="artifact-header">
+          <span class="artifact-title">📄 ${escapeHtml(art.title || "Document")}</span>
+          <span class="artifact-badge">Word / Google Doc</span>
+        </div>
+        <div class="artifact-links">
+          <a href="${art.downloadUrl}" target="_blank" class="btn-artifact-primary">⬇ Download Word (.docx)</a>
+          ${art.pdfUrl ? `<a href="${art.pdfUrl}" target="_blank" class="btn-artifact-secondary">⬇ PDF</a>` : ""}
+          <a href="${art.viewUrl}" target="_blank" class="btn-artifact-secondary">Open in Google Docs ↗</a>
+        </div>
+      </div>
+    `;
+  }
+  if (art.type === "image") {
+    return `
+      <div class="artifact-card">
+        <div class="artifact-header">
+          <span class="artifact-title">🎨 ${escapeHtml(art.title || "Generated Visual")}</span>
+          <span class="artifact-badge">Brand Kit v4</span>
+        </div>
+        <img src="${art.imageUrl}" alt="Generated RitualEase Visual" class="artifact-preview-img">
+        <div class="artifact-links">
+          <a href="${art.downloadUrl}" download="RitualEase_Visual.png" target="_blank" class="btn-artifact-primary">⬇ Download Image</a>
+          ${art.viewUrl ? `<a href="${art.viewUrl}" target="_blank" class="btn-artifact-secondary">View in Drive ↗</a>` : ""}
+        </div>
+      </div>
+    `;
+  }
+  return "";
 }
 
 function appendEntry(role, text, id) {
@@ -767,12 +979,12 @@ function appendEntry(role, text, id) {
   stream.scrollTop = stream.scrollHeight;
 }
 
-function replaceEntry(id, text, showCopy) {
+function replaceEntry(id, text, showCopy, artifact) {
   const entry = document.getElementById(id);
   if (!entry) return;
   entry.removeAttribute("id");
   const body = entry.querySelector(".entry-body");
-  body.innerHTML = renderMarkdown(text);
+  body.innerHTML = renderMarkdown(text) + renderArtifactHtml(artifact);
   if (showCopy) {
     entry.appendChild(buildActions(text));
   }
