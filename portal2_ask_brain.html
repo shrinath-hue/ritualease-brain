@@ -673,10 +673,10 @@
 
       <div class="composer-box">
         <div class="composer-row">
-          <textarea id="qInput" rows="3" placeholder="Ask anything, or say: 'Create an Excel of Puja margins', 'Draft a vendor SOP Doc', or 'Generate an image of a marigold home puja'..."></textarea>
+          <textarea id="qInput" rows="3" placeholder="Ask anything, or paste your details to generate a ready-to-use Excel (.xlsx), Document (.docx), or Brand Image..."></textarea>
           <button type="button" class="btn-send" id="askBtn" onclick="sendMessage()">Send ↵</button>
         </div>
-        <div class="composer-note">Creates <strong>Excel (.xlsx)</strong>, <strong>Docs (.docx)</strong> &amp; <strong>Images</strong> on command • Press <strong>Enter</strong> to send</div>
+        <div class="composer-note">Creates <strong>Excel (.xlsx)</strong> from your exact inputs, <strong>Docs (.docx)</strong> &amp; <strong>Images</strong> • Press <strong>Enter</strong> to send</div>
       </div>
     </div>
   </main>
@@ -700,14 +700,14 @@
     </div>
   </footer>
 
-<script src="brain.js?v=19"></script>
+<script src="brain.js?v=20"></script>
 <script>
 let chatHistory = [];
 let isBusy = false;
 
 // Opt-in local device file index (Strictly empty & inactive unless user explicitly enables)
 let deviceEnabled = false;
-let localDeviceFiles = []; // [{ path, name, text }]
+let localDeviceFiles = [];
 
 function resolveScriptUrl() {
   if (typeof getScriptUrl === "function") {
@@ -724,7 +724,6 @@ async function toggleDeviceAccess() {
   const btn = document.getElementById("deviceBtn");
   const label = document.getElementById("deviceBtnLabel");
 
-  // Turn OFF and immediately purge memory if currently enabled
   if (deviceEnabled) {
     deviceEnabled = false;
     localDeviceFiles = [];
@@ -733,7 +732,6 @@ async function toggleDeviceAccess() {
     return;
   }
 
-  // Turn ON only via explicit user permission gesture
   if (window.showDirectoryPicker) {
     try {
       const dirHandle = await window.showDirectoryPicker({ mode: "read" });
@@ -749,7 +747,6 @@ async function toggleDeviceAccess() {
       label.textContent = "Device Folder: Off";
     }
   } else {
-    // Fallback for Safari / Mobile browsers
     document.getElementById("mobileFolderInput").click();
   }
 }
@@ -824,15 +821,21 @@ function initChat() {
   stream.innerHTML = `
     <div class="entry assistant">
       <div class="entry-body">
-        <strong>Namaste!</strong> How can I help you today? Ask any question, or instruct me to build an <strong>Excel (.xlsx)</strong>, <strong>Document (.docx)</strong>, or <strong>Brand Image</strong>.
+        <strong>Namaste!</strong> How can I help you today? Ask any question, paste details to generate a ready-to-use <strong>Excel (.xlsx)</strong>, or request a <strong>Document (.docx)</strong> or <strong>Brand Image</strong>.
         <div class="starter-row">
-          <button type="button" class="starter-pill" onclick="useStarter('Create an Excel sheet comparing all Puja packages, inclusions, and customer utensils')">Create Puja Excel (.xlsx)</button>
+          <button type="button" class="starter-pill" onclick="prefillExcelPrompt()">Create Spreadsheet From My Details</button>
           <button type="button" class="starter-pill" onclick="useStarter('Create a Word document SOP for on-day home birthday coordination')">Create Ops Doc (.docx)</button>
           <button type="button" class="starter-pill" onclick="useStarter('Generate an image of a warm marigold and ivory Satyanarayan puja setup at home')">Generate Puja Visual</button>
         </div>
       </div>
     </div>
   `;
+}
+
+function prefillExcelPrompt() {
+  const input = document.getElementById("qInput");
+  input.value = "Create a spreadsheet for Christmas offerings:\n1. ";
+  input.focus();
 }
 
 function useStarter(text) {
@@ -921,8 +924,8 @@ function renderArtifactHtml(art) {
           <span class="artifact-badge">Excel (.xlsx)</span>
         </div>
         <div class="artifact-links">
-          <a href="${art.downloadUrl}" target="_blank" class="btn-artifact-primary">⬇ Download Excel (.xlsx)</a>
-          <a href="${art.viewUrl}" target="_blank" class="btn-artifact-secondary">Open in Google Sheets ↗</a>
+          <a href="${art.viewUrl}" target="_blank" class="btn-artifact-primary">Open Google Sheet ↗</a>
+          <a href="${art.downloadUrl}" target="_blank" class="btn-artifact-secondary">⬇ Download Excel (.xlsx)</a>
         </div>
       </div>
     `;
@@ -935,9 +938,9 @@ function renderArtifactHtml(art) {
           <span class="artifact-badge">Word / Google Doc</span>
         </div>
         <div class="artifact-links">
-          <a href="${art.downloadUrl}" target="_blank" class="btn-artifact-primary">⬇ Download Word (.docx)</a>
+          <a href="${art.viewUrl}" target="_blank" class="btn-artifact-primary">Open Google Doc ↗</a>
+          <a href="${art.downloadUrl}" target="_blank" class="btn-artifact-secondary">⬇ Download Word (.docx)</a>
           ${art.pdfUrl ? `<a href="${art.pdfUrl}" target="_blank" class="btn-artifact-secondary">⬇ PDF</a>` : ""}
-          <a href="${art.viewUrl}" target="_blank" class="btn-artifact-secondary">Open in Google Docs ↗</a>
         </div>
       </div>
     `;
